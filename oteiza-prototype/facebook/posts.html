@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8">
+<title>Posts Facebook coffrets</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--ecru:#EEE5D0;--ecru-ombre:#E2D6BC;--garance:#AE2A2C;--vert:#2E5B3F;--nuit:#1F3557;--encre:#2B211C;--encre-douce:#5A4A3F}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#777}
+.post{width:1080px;height:1350px;position:relative;overflow:hidden;margin-bottom:20px;color:var(--encre);font-family:'Hanken Grotesk',sans-serif;
+  background:repeating-linear-gradient(0deg,rgba(90,70,50,.05) 0 1px,transparent 1px 4px),repeating-linear-gradient(90deg,rgba(90,70,50,.045) 0 1px,transparent 1px 5px),var(--ecru)}
+.bande{position:absolute;left:0;right:0}
+.bande::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(90deg,rgba(255,255,255,.07) 0 2px,transparent 2px 6px)}
+.signature{position:absolute;top:118px;left:84px;font-weight:700;font-size:21px;letter-spacing:.2em;text-transform:uppercase;color:var(--vert)}
+.titre{position:absolute;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-variation-settings:"wdth" 80,"opsz" 96;letter-spacing:-.03em;line-height:.88}
+.titre em{font-style:normal;color:var(--garance)}
+.photo{position:absolute;overflow:hidden;background:#3a2e27;box-shadow:0 18px 36px -12px rgba(43,33,28,.45),0 4px 10px rgba(43,33,28,.18)}
+.photo img{width:100%;height:100%;object-fit:cover;display:block}
+.photo .vide{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;padding:28px;background:linear-gradient(135deg,#4a3a30,#2d241f);color:#E9DCC4}
+.photo .vide b{font-size:22px}.photo .vide span{font-size:18px;opacity:.75;margin-top:6px}
+.liste{position:absolute;list-style:none}
+.liste li{display:flex;align-items:center;gap:20px;font-size:31px;padding:13px 0;border-bottom:1.5px solid rgba(43,33,28,.18)}
+.liste li i{flex:none;width:34px;height:12px}
+.cta{position:absolute;display:inline-flex;align-items:center;gap:18px;background:var(--garance);color:var(--ecru);padding:24px 38px;border-radius:999px;font-weight:700;font-size:31px;box-shadow:0 14px 28px -10px rgba(174,42,44,.55)}
+.date{position:absolute;width:440px}
+.date .qui{font-weight:700;font-size:22px;letter-spacing:.16em;text-transform:uppercase;color:var(--vert);padding-bottom:12px;border-bottom:3px solid var(--vert)}
+.date .avant{font-size:26px;color:var(--encre-douce);margin-top:18px;font-weight:600}
+.date .jour{font-family:'Bricolage Grotesque';font-weight:800;font-variation-settings:"wdth" 75,"opsz" 96;font-size:150px;letter-spacing:-.04em;line-height:.85;color:var(--garance);margin-top:6px}
+.date .jour sup{font-size:56px;vertical-align:top;position:relative;top:10px;margin-left:4px}
+.date .jour small{font-size:70px;letter-spacing:-.02em}
+.pastille{position:absolute;width:190px;height:190px;border-radius:50%;background:var(--vert);color:var(--ecru);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;transform:rotate(-8deg);box-shadow:0 12px 24px -8px rgba(30,40,30,.5)}
+.pastille b{font-family:'Bricolage Grotesque';font-weight:800;font-size:46px;line-height:.9}
+.pastille span{font-size:19px;font-weight:600;margin-top:6px;line-height:1.2}
+</style></head><body>
+
+<!-- ===== POST 1 : coffrets entreprises ===== -->
+<section class="post" id="p1">
+  <div class="bande" style="top:64px;height:10px;background:var(--vert)"></div>
+  <div class="bande" style="top:82px;height:4px;background:var(--garance)"></div>
+  <div class="signature">Maison Pierre Oteiza · Cadeaux d’entreprise</div>
+  <h1 class="titre" style="left:78px;top:178px;font-size:112px;width:920px">Offrez le Pays Basque<br><em>à vos équipes</em></h1>
+  <div class="photo" data-src="img/coffret.jpg" style="left:84px;top:420px;width:912px;height:500px;transform:rotate(-1.5deg)">
+    <div class="vide"><b>Photo · Coffret gourmand ouvert</b><span>Charcuteries, conserves, ruban rouge, linge basque</span></div></div>
+  <ul class="liste" style="left:84px;top:960px;width:912px">
+    <li><i style="background:var(--garance)"></i>Remerciez clients, partenaires et salariés</li>
+    <li><i style="background:var(--vert)"></i>Des spécialités élaborées aux Aldudes</li>
+    <li><i style="background:var(--nuit)"></i>Livraison en France et en Europe</li>
+  </ul>
+  <div class="cta" style="left:84px;top:1165px">
+    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="13" rx="1.5"/><path d="M12 8v13M3 12h18M12 8c-1.5-3-5-4-5-1.5S10.5 8 12 8zm0 0c1.5-3 5-4 5-1.5S13.5 8 12 8z"/></svg>
+    Commandez sur pierreoteiza.com</div>
+  <div class="bande" style="top:1262px;height:16px;background:var(--garance)"></div>
+  <div class="bande" style="top:1284px;height:40px;background:var(--vert)"></div>
+  <div class="bande" style="top:1330px;height:6px;background:var(--nuit)"></div>
+</section>
+
+<!-- ===== POST 2 : dates limites ===== -->
+<section class="post" id="p2">
+  <div class="bande" style="top:64px;height:10px;background:var(--vert)"></div>
+  <div class="bande" style="top:82px;height:4px;background:var(--garance)"></div>
+  <div class="signature">Maison Pierre Oteiza · Noël</div>
+  <h1 class="titre" style="left:78px;top:178px;font-size:112px;width:920px">Pour Noël,<br><em>commandez à temps</em></h1>
+  <div class="photo" data-src="img/coffrets-noel.jpg" style="left:84px;top:420px;width:912px;height:430px;transform:rotate(1.2deg)">
+    <div class="vide"><b>Photo · Coffrets prêts à partir</b><span>Coffrets empilés, rubans, branches de sapin</span></div></div>
+  <div class="pastille" style="left:810px;top:390px"><b>Livré avant Noël</b><span>en France</span></div>
+  <div class="date" style="left:84px;top:900px">
+    <div class="qui">Entreprises</div>
+    <div class="avant">Commande avant le</div>
+    <div class="jour">1<sup>er</sup> <small>déc.</small></div>
+  </div>
+  <div class="date" style="left:556px;top:900px">
+    <div class="qui">Particuliers</div>
+    <div class="avant">Commande avant le</div>
+    <div class="jour">17 <small>déc.</small></div>
+  </div>
+  <div class="cta" style="left:84px;top:1165px">
+    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
+    Commandez sur pierreoteiza.com</div>
+  <div class="bande" style="top:1262px;height:16px;background:var(--garance)"></div>
+  <div class="bande" style="top:1284px;height:40px;background:var(--vert)"></div>
+  <div class="bande" style="top:1330px;height:6px;background:var(--nuit)"></div>
+</section>
+
+<script>
+document.querySelectorAll('.photo[data-src]').forEach(p=>{const img=new Image();img.onload=()=>{p.innerHTML='';p.appendChild(img)};img.src=p.dataset.src;});
+</script>
+</body></html>
