@@ -12,9 +12,9 @@
 ## Contenu
 | Option | Photo | Texte |
 |---|---|---|
-| ① La balade | Vallée des Aldudes, porcs basques en plein air | Le sentier du porc basque, au cœur de la vallée |
-| ② La rencontre | Artisan qui tranche un jambon à la main | Les gestes et l'histoire de nos producteurs |
-| ③ La dégustation | Planche basque et verres de vin | Le Kintoa AOP et nos spécialités, sur place |
+| ① La balade | Couple de randonneurs sur un sentier de la vallée | Le sentier du porc basque, au cœur de la vallée |
+| ② La rencontre | Éleveur en béret au milieu de ses porcs basques, face à des visiteurs | Nos éleveurs et leurs porcs basques |
+| ③ La dégustation | Amis qui trinquent en terrasse, jambon et pintxos sur nappe basque | Le Kintoa AOP et nos spécialités, sur place |
 
 ## Règles de composition appliquées
 | Règle | Application |
@@ -33,4 +33,4 @@
 > Dites-nous tout en commentaire 👇 On a hâte de vous accueillir !
 
 ## Photos
-Les 3 photos sont **générées par IA avec ChatGPT** (les mêmes que pour le carrousel Instagram). Ce ne sont pas de vraies photos de la Maison Pierre Oteiza.
+Les 3 photos sont **générées par IA avec ChatGPT**, différentes de celles du carrousel Instagram pour éviter les répétitions. Ce ne sont pas de vraies photos de la Maison Pierre Oteiza.
