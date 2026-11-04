@@ -1,89 +1,138 @@
 <!doctype html>
 <html lang="fr"><head><meta charset="utf-8">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,800;1,600&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+<title>Carrousel planche basque</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root{--rouge:#A61E22;--vert:#1E4634;--creme:#F4EDE0;--encre:#2A1F1A;--or:#C99A3B}
+:root{
+  --ecru:#EEE5D0; --ecru-ombre:#E2D6BC;
+  --garance:#AE2A2C; --vert:#2E5B3F; --nuit:#1F3557;
+  --encre:#2B211C; --encre-douce:#5A4A3F;
+}
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:#888}
-.slide{width:1080px;height:1080px;position:relative;overflow:hidden;background:var(--creme);color:var(--encre);font-family:Inter,sans-serif;margin-bottom:20px}
-/* bande toile basque */
-.toile{position:absolute;left:0;right:0;height:56px;background:
- linear-gradient(to bottom,var(--creme) 0 8px,var(--rouge) 8px 14px,var(--creme) 14px 20px,var(--vert) 20px 36px,var(--creme) 36px 42px,var(--rouge) 42px 48px,var(--creme) 48px 56px)}
-.toile.bas{bottom:56px}
-.toile.haut{top:56px}
-.marque{position:absolute;top:150px;left:90px;font-size:22px;letter-spacing:.28em;text-transform:uppercase;font-weight:700;color:var(--vert)}
-.pager{position:absolute;top:150px;right:90px;font-size:22px;font-weight:500;color:var(--vert);letter-spacing:.1em}
-.num{font-family:'Playfair Display',serif;font-weight:800;font-size:250px;line-height:.8;color:var(--rouge);position:absolute;left:80px;top:240px}
-h2{font-family:'Playfair Display',serif;font-weight:800;font-size:92px;line-height:1;color:var(--vert);position:absolute;left:90px;top:520px}
-.txt{position:absolute;left:90px;top:660px;width:860px;font-size:38px;line-height:1.4}
-.txt b{color:var(--rouge)}
-.suite{position:absolute;bottom:150px;right:90px;font-size:24px;font-weight:700;color:var(--rouge);letter-spacing:.08em}
-/* couverture */
-.cover{background:var(--vert);color:var(--creme)}
-.cover .toile{background:linear-gradient(to bottom,var(--vert) 0 8px,var(--rouge) 8px 14px,var(--vert) 14px 20px,var(--creme) 20px 36px,var(--vert) 36px 42px,var(--rouge) 42px 48px,var(--vert) 48px 56px)}
-.cover .marque{color:var(--or)}
-.cover h1{font-family:'Playfair Display',serif;font-weight:800;font-size:128px;line-height:.98;position:absolute;left:90px;top:270px;width:900px}
-.cover h1 em{font-style:italic;font-weight:600;color:#F2B8A8}
-.cover .sous{position:absolute;left:90px;top:720px;font-size:40px;font-weight:500}
-.cover .sous span{display:inline-block;background:var(--rouge);padding:10px 22px;border-radius:6px}
-.cover .suite{color:var(--or)}
+html,body{background:#777}
+::selection{background:var(--garance);color:var(--ecru)}
+
+/* Un seul linge déroulé : 5 slides × 1080 */
+.linge{width:5400px;height:1080px;position:relative;overflow:hidden;color:var(--encre);
+  font-family:'Hanken Grotesk',sans-serif;
+  background:
+    repeating-linear-gradient(0deg,rgba(90,70,50,.05) 0 1px,transparent 1px 4px),
+    repeating-linear-gradient(90deg,rgba(90,70,50,.045) 0 1px,transparent 1px 5px),
+    var(--ecru);}
+
+/* Bandes tissées, continues sur tout le carrousel */
+.bande{position:absolute;left:0;width:5400px}
+.bande::after{content:"";position:absolute;inset:0;
+  background:repeating-linear-gradient(90deg,rgba(255,255,255,.07) 0 2px,transparent 2px 6px)}
+.haut-1{top:64px;height:10px;background:var(--vert)}
+.haut-2{top:82px;height:4px;background:var(--garance)}
+.bas-1{top:872px;height:22px;background:var(--garance)}
+.bas-2{top:902px;height:8px;background:var(--ecru-ombre)}
+.bas-3{top:918px;height:70px;background:var(--vert)}
+.bas-4{top:996px;height:8px;background:var(--nuit)}
+.bas-5{top:1012px;height:22px;background:var(--garance)}
+
+/* Photos posées sur le linge */
+.photo{position:absolute;overflow:hidden;background:#3a2e27;
+  box-shadow:0 18px 36px -12px rgba(43,33,28,.45),0 4px 10px rgba(43,33,28,.18)}
+.photo img{width:100%;height:100%;object-fit:cover;display:block}
+.photo .vide{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;padding:28px;
+  background:linear-gradient(135deg,#4a3a30,#2d241f);color:#E9DCC4}
+.photo .vide b{font-weight:700;font-size:22px;letter-spacing:.02em}
+.photo .vide span{font-size:18px;opacity:.75;margin-top:6px;max-width:28ch;line-height:1.35}
+.legende{position:absolute;font-size:20px;font-weight:600;color:var(--encre-douce);letter-spacing:.01em}
+
+/* Typo */
+.titre{position:absolute;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;
+  font-variation-settings:"wdth" 80,"opsz" 96;letter-spacing:-.03em;line-height:.88;color:var(--encre)}
+.titre em{font-style:normal;color:var(--garance)}
+.corps{position:absolute;font-size:33px;line-height:1.38;color:var(--encre)}
+.corps strong{font-weight:700;color:var(--garance)}
+.etape{position:absolute;display:flex;align-items:center;gap:18px}
+.etape .n{width:84px;height:84px;border-radius:50%;background:var(--garance);color:var(--ecru);
+  font-family:'Bricolage Grotesque';font-weight:800;font-size:52px;display:flex;align-items:center;justify-content:center}
+.etape .l{font-weight:700;font-size:22px;letter-spacing:.14em;text-transform:uppercase;color:var(--vert)}
+.signature{position:absolute;top:118px;font-weight:700;font-size:21px;letter-spacing:.2em;text-transform:uppercase;color:var(--vert)}
+.page{position:absolute;top:118px;font-weight:600;font-size:21px;color:var(--encre-douce);font-variant-numeric:tabular-nums}
+
+/* Portions */
+.grammes{position:absolute;font-family:'Bricolage Grotesque';font-weight:800;font-variation-settings:"wdth" 75,"opsz" 96;
+  font-size:250px;letter-spacing:-.04em;line-height:.8;color:var(--garance)}
+.grammes small{font-size:90px;letter-spacing:-.02em}
+.liste{position:absolute;list-style:none}
+.liste li{display:flex;align-items:baseline;gap:20px;font-size:31px;padding:15px 0;border-bottom:1.5px solid rgba(43,33,28,.18)}
+.liste li i{flex:none;width:34px;height:12px;align-self:center;font-style:normal}
+.liste li span{margin-left:auto;font-size:22px;color:var(--encre-douce);font-weight:600}
+
+/* Accompagnements */
+.accomp{position:absolute;display:flex;flex-wrap:wrap;gap:12px}
+.accomp span{font-size:25px;font-weight:600;padding:10px 20px;border-radius:999px;border:2px solid var(--vert);color:var(--vert)}
+
 /* CTA */
-.cta{background:var(--rouge);color:var(--creme)}
-.cta .toile{background:linear-gradient(to bottom,var(--rouge) 0 8px,var(--creme) 8px 14px,var(--rouge) 14px 20px,var(--vert) 20px 36px,var(--rouge) 36px 42px,var(--creme) 42px 48px,var(--rouge) 48px 56px)}
-.cta .marque,.cta .pager{color:var(--creme)}
-.cta h2{color:var(--creme);top:230px;font-size:104px;width:900px}
-.cta .txt{top:600px;font-size:38px}
-.cta .txt b{color:#FFD9C9}
-.bouton{position:absolute;left:90px;top:760px;background:var(--creme);color:var(--rouge);font-weight:700;font-size:40px;padding:30px 46px;border-radius:999px;box-shadow:0 8px 0 var(--vert)}
-.signature{position:absolute;left:90px;bottom:150px;font-family:'Playfair Display',serif;font-style:italic;font-size:30px}
+.cta{position:absolute;display:flex;align-items:center;gap:20px;background:var(--garance);color:var(--ecru);
+  padding:26px 38px 26px 34px;border-radius:999px;font-weight:700;font-size:32px;
+  box-shadow:0 14px 28px -10px rgba(174,42,44,.55)}
+.cta svg{flex:none}
+.swipe{position:absolute;display:flex;align-items:center;gap:14px;font-weight:700;font-size:22px;letter-spacing:.14em;text-transform:uppercase;color:var(--ecru)}
 </style></head><body>
+<div class="linge" id="linge">
+  <div class="bande haut-1"></div><div class="bande haut-2"></div>
+  <div class="bande bas-1"></div><div class="bande bas-2"></div><div class="bande bas-3"></div><div class="bande bas-4"></div><div class="bande bas-5"></div>
 
-<section class="slide cover" id="s1">
- <div class="toile haut"></div>
- <div class="marque">Maison Pierre Oteiza · Les Aldudes</div>
- <h1>Bien préparer une planche <em>basque</em></h1>
- <div class="sous"><span>3 gestes pour un apéro réussi</span></div>
- <div class="suite">GLISSEZ →</div>
- <div class="toile bas"></div>
-</section>
+  <!-- ===== SLIDE 1 : couverture ===== -->
+  <div class="signature" style="left:84px">Maison Pierre Oteiza · Les Aldudes</div>
+  <h1 class="titre" style="left:78px;top:190px;font-size:128px;width:560px">Bien préparer une planche <em>basque</em></h1>
+  <p class="corps" style="left:84px;top:790px;width:560px;font-size:30px;color:var(--encre-douce)">Les 3 gestes de nos artisans.</p>
+  <!-- planche à cheval sur les slides 1 et 2 -->
+  <div class="photo" data-src="img/planche.jpg" style="left:690px;top:170px;width:790px;height:640px;transform:rotate(-3deg)">
+    <div class="vide"><b>Photo 1 · Planche vue de dessus</b><span>Jambon, saucisson, chorizo, ventrèche sur planche en bois</span></div></div>
+  <div class="swipe" style="left:820px;top:936px">Glissez
+    <svg width="44" height="20" viewBox="0 0 44 20" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M2 10h38M31 2l9 8-9 8"/></svg></div>
 
-<section class="slide" id="s2">
- <div class="toile haut"></div>
- <div class="marque">Pierre Oteiza</div><div class="pager">2 / 5</div>
- <div class="num">1</div>
- <h2>La découpe</h2>
- <p class="txt">Le jambon se tranche <b>très finement</b>, presque transparent, pour libérer tous ses arômes. Le saucisson, en tranches <b>légèrement biseautées</b>.</p>
- <div class="suite">→</div>
- <div class="toile bas"></div>
-</section>
+  <!-- ===== SLIDE 2 : découpe ===== -->
+  <div class="page" style="left:2010px">2/5</div>
+  <div class="etape" style="left:1560px;top:200px"><div class="n">1</div><div class="l">La découpe</div></div>
+  <h2 class="titre" style="left:1556px;top:330px;font-size:118px;width:520px">Fin, très fin</h2>
+  <p class="corps" style="left:1560px;top:470px;width:480px;font-size:31px">Le <strong>Jambon de Kintoa AOP</strong>, affiné 18 à 24 mois aux Aldudes, se tranche très finement : le gras fond en bouche et libère ses arômes. Le saucisson, en tranches légèrement biseautées.</p>
 
-<section class="slide" id="s3">
- <div class="toile haut"></div>
- <div class="marque">Pierre Oteiza</div><div class="pager">3 / 5</div>
- <div class="num">2</div>
- <h2>Les portions</h2>
- <p class="txt">Comptez <b>60 à 80 g</b> de charcuterie par personne à l’apéritif. Variez les plaisirs : jambon de Kintoa AOP, saucisson, chorizo, ventrèche.</p>
- <div class="suite">→</div>
- <div class="toile bas"></div>
-</section>
+  <!-- ===== SLIDE 3 : portions ===== -->
+  <div class="page" style="left:3090px">3/5</div>
+  <div class="etape" style="left:2244px;top:200px"><div class="n">2</div><div class="l">Les portions</div></div>
+  <div class="grammes" style="left:2236px;top:340px;font-size:200px">60–80<small> g</small></div>
+  <p class="corps" style="left:2244px;top:540px;width:420px;font-size:29px">de charcuterie par personne à l’apéritif. Variez les textures :</p>
+  <ul class="liste" style="left:2244px;top:640px;width:430px">
+    <li><i style="background:var(--garance)"></i>Kintoa AOP<span>fondant</span></li>
+    <li><i style="background:var(--vert)"></i>Saucisson<span>ferme</span></li>
+    <li><i style="background:var(--nuit)"></i>Chorizo<span>relevé</span></li>
+  </ul>
+  <div class="photo" data-src="img/tranches.jpg" style="left:2770px;top:200px;width:390px;height:560px;transform:rotate(2.5deg)">
+    <div class="vide"><b>Photo 2 · Tranchage</b><span>Mains qui tranchent un jambon à la main, très finement</span></div></div>
+  <div class="legende" style="left:2780px;top:790px">Et la ventrèche, grillée minute.</div>
 
-<section class="slide" id="s4">
- <div class="toile haut"></div>
- <div class="marque">Pierre Oteiza</div><div class="pager">4 / 5</div>
- <div class="num">3</div>
- <h2>La présentation</h2>
- <p class="txt">Des <b>plis</b> pour le jambon, des <b>éventails</b> pour le saucisson, et des touches de couleur : piment d’Espelette, cerises noires, fromage de brebis.</p>
- <div class="suite">→</div>
- <div class="toile bas"></div>
-</section>
+  <!-- ===== SLIDE 4 : présentation ===== -->
+  <div class="page" style="left:4170px">4/5</div>
+  <div class="photo" data-src="img/presentation.jpg" style="left:3310px;top:180px;width:470px;height:620px;transform:rotate(-2deg)">
+    <div class="vide"><b>Photo 3 · Planche dressée</b><span>Jambon en plis, saucisson en éventail, brebis, cerises noires</span></div></div>
+  <div class="etape" style="left:3840px;top:200px"><div class="n">3</div><div class="l">La présentation</div></div>
+  <h2 class="titre" style="left:3836px;top:330px;font-size:96px;width:440px">Des plis, des éventails</h2>
+  <p class="corps" style="left:3840px;top:520px;width:420px;font-size:28px">Le jambon en vagues, le saucisson en éventail. Puis quelques touches basques :</p>
+  <div class="accomp" style="left:3840px;top:670px;width:440px">
+    <span>Piment d’Espelette</span><span>Cerises noires</span><span>Brebis</span></div>
 
-<section class="slide cta" id="s5">
- <div class="toile haut"></div>
- <div class="marque">Pierre Oteiza</div><div class="pager">5 / 5</div>
- <h2>À vous de dresser la planche !</h2>
- <p class="txt">Partagez votre création en story en identifiant <b>@pierreoteiza</b>.</p>
- <div class="bouton">Nos spécialités sur pierreoteiza.com</div>
- <div class="signature">Vivre et travailler au Pays Basque</div>
- <div class="toile bas"></div>
-</section>
+  <!-- ===== SLIDE 5 : CTA ===== -->
+  <div class="page" style="left:5250px">5/5</div>
+  <h2 class="titre" style="left:4398px;top:190px;font-size:132px;width:600px">À vous de dresser la planche&nbsp;!</h2>
+  <p class="corps" style="left:4404px;top:540px;width:520px;font-size:28px">Un jambon issu du <strong>porc basque Pie Noir</strong>, élevé en plein air dans la vallée des Aldudes.</p>
+  <div class="cta" style="left:4404px;top:700px">
+    <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".8" fill="currentColor"/></svg>
+    Partagez-la en story · @pierreoteiza</div>
+  <div class="photo" data-src="img/aldudes.jpg" style="left:5000px;top:170px;width:330px;height:440px;transform:rotate(3deg)">
+    <div class="vide"><b>Photo 4 · Les Aldudes</b><span>Vallée verte, porcs Pie Noir en plein air</span></div></div>
+  <div class="swipe" style="left:4404px;top:936px;color:var(--ecru)">pierreoteiza.com</div>
+  <div class="swipe" style="left:4980px;top:936px;color:var(--ecru);letter-spacing:.06em;text-transform:none;font-weight:600">Vivre et travailler au Pays Basque</div>
+</div>
+<script>
+document.querySelectorAll('.photo[data-src]').forEach(p=>{
+  const img=new Image();img.onload=()=>{p.innerHTML='';p.appendChild(img)};img.src=p.dataset.src;});
+</script>
 </body></html>
