@@ -30,8 +30,8 @@ Les 5 slides forment **un seul torchon basque**. Les bandes rouge, verte et bleu
 | **Lisibilité** | Titres en Bricolage Grotesque très gras, texte en Hanken Grotesk de 28 à 33 px, lisible sur mobile. Texte foncé sur fond écru, avec un fort contraste. |
 | **CTA visible** | Un bouton rouge plein avec une icône Instagram sur la dernière slide. |
 
-## Photos à insérer
-Les emplacements photo sont prévus. Il suffit de déposer les images dans `img/` avec ces noms, puis de relancer le rendu (ou de me les envoyer). Les prompts suivants servent à les générer avec ChatGPT, Gemini ou Canva :
+## Photos
+Les 4 photos (`img/`) ont été **générées par IA avec ChatGPT** à partir des prompts ci-dessous. Ce ne sont pas des photos réelles de la Maison Pierre Oteiza : pour une vraie publication, il faudrait les remplacer par des photos de la marque.
 
 1. **`img/planche.jpg`** (paysage 5:4) : *Photographie culinaire vue de dessus, planche en bois ancienne avec du jambon sec basque tranché très finement et plié en vagues, saucisson en éventail, chorizo, ventrèche, fromage de brebis, confiture de cerises noires, posée sur un torchon basque rayé rouge et vert. Lumière naturelle douce, tons chauds, aucune marque ni texte.*
 2. **`img/tranches.jpg`** (portrait 3:4) : *Gros plan sur les mains d'un artisan charcutier qui tranche à la main un jambon sec posé sur un support en bois, tranches presque transparentes, atelier rustique, lumière latérale chaude, aucune marque.*
