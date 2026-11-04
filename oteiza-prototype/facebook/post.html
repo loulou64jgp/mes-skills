@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8">
+<title>Escapade aux Aldudes</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--ecru:#EEE5D0;--garance:#AE2A2C;--vert:#2E5B3F;--nuit:#1F3557;--encre:#2B211C;--encre-douce:#5A4A3F}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#777}
+.post{width:1080px;height:1350px;position:relative;overflow:hidden;color:var(--encre);font-family:'Hanken Grotesk',sans-serif;
+  background:repeating-linear-gradient(0deg,rgba(90,70,50,.05) 0 1px,transparent 1px 4px),repeating-linear-gradient(90deg,rgba(90,70,50,.045) 0 1px,transparent 1px 5px),var(--ecru)}
+.bande{position:absolute;left:0;right:0}
+.bande::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(90deg,rgba(255,255,255,.07) 0 2px,transparent 2px 6px)}
+.signature{position:absolute;top:118px;left:84px;font-weight:700;font-size:21px;letter-spacing:.2em;text-transform:uppercase;color:var(--vert)}
+.titre{position:absolute;left:78px;top:176px;width:940px;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-variation-settings:"wdth" 80,"opsz" 96;font-size:116px;letter-spacing:-.03em;line-height:.88}
+.titre em{font-style:normal;color:var(--garance)}
+.choix{position:absolute;top:420px;width:292px}
+.photo{width:292px;height:520px;overflow:hidden;box-shadow:0 18px 36px -12px rgba(43,33,28,.45),0 4px 10px rgba(43,33,28,.18)}
+.photo img{width:100%;height:100%;object-fit:cover;display:block}
+.tete{display:flex;align-items:center;gap:14px;margin-top:34px}
+.n{flex:none;width:64px;height:64px;border-radius:50%;background:var(--garance);color:var(--ecru);font-family:'Bricolage Grotesque';font-weight:800;font-size:40px;display:flex;align-items:center;justify-content:center}
+.nom{font-family:'Bricolage Grotesque';font-weight:800;font-variation-settings:"wdth" 85;font-size:35px;letter-spacing:-.02em;line-height:1;white-space:nowrap}
+.desc{font-size:23px;line-height:1.35;color:var(--encre-douce);margin-top:14px;font-weight:500}
+.cta{position:absolute;left:84px;top:1160px;display:inline-flex;align-items:center;gap:18px;background:var(--garance);color:var(--ecru);padding:24px 40px 24px 34px;border-radius:999px;font-weight:700;font-size:32px;box-shadow:0 14px 28px -10px rgba(174,42,44,.55)}
+</style></head><body>
+<section class="post" id="post">
+  <div class="bande" style="top:64px;height:10px;background:var(--vert)"></div>
+  <div class="bande" style="top:82px;height:4px;background:var(--garance)"></div>
+  <div class="signature">Maison Pierre Oteiza · Les Aldudes</div>
+  <h1 class="titre">Votre escapade idéale <em>aux Aldudes&nbsp;?</em></h1>
+
+  <div class="choix" style="left:84px;transform:rotate(-1.2deg)">
+    <div class="photo"><img src="img/aldudes.jpg" alt="Vallée des Aldudes et porcs basques en plein air"></div>
+    <div class="tete"><div class="n">1</div><div class="nom">La balade</div></div>
+    <p class="desc">Le sentier du porc basque, au cœur de la vallée</p>
+  </div>
+  <div class="choix" style="left:394px;transform:rotate(.8deg)">
+    <div class="photo"><img src="img/tranches.jpg" alt="Un artisan tranche un jambon à la main"></div>
+    <div class="tete"><div class="n">2</div><div class="nom">La rencontre</div></div>
+    <p class="desc">Les gestes et l’histoire de nos producteurs</p>
+  </div>
+  <div class="choix" style="left:704px;transform:rotate(-.8deg)">
+    <div class="photo"><img src="img/presentation.jpg" alt="Planche de charcuterie basque et verres de vin"></div>
+    <div class="tete"><div class="n">3</div><div class="nom">La dégustation</div></div>
+    <p class="desc">Le Kintoa AOP et nos spécialités, sur place</p>
+  </div>
+
+  <div class="cta">
+    <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1.1-4.6A8 8 0 1 1 21 12z"/></svg>
+    Répondez 1, 2 ou 3 en commentaire</div>
+
+  <div class="bande" style="top:1262px;height:16px;background:var(--garance)"></div>
+  <div class="bande" style="top:1284px;height:40px;background:var(--vert)"></div>
+  <div class="bande" style="top:1330px;height:6px;background:var(--nuit)"></div>
+</section>
+</body></html>
