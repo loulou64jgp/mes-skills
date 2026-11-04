@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,800;1,600&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--rouge:#A61E22;--vert:#1E4634;--creme:#F4EDE0;--encre:#2A1F1A;--or:#C99A3B}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#888}
+.slide{width:1080px;height:1080px;position:relative;overflow:hidden;background:var(--creme);color:var(--encre);font-family:Inter,sans-serif;margin-bottom:20px}
+/* bande toile basque */
+.toile{position:absolute;left:0;right:0;height:56px;background:
+ linear-gradient(to bottom,var(--creme) 0 8px,var(--rouge) 8px 14px,var(--creme) 14px 20px,var(--vert) 20px 36px,var(--creme) 36px 42px,var(--rouge) 42px 48px,var(--creme) 48px 56px)}
+.toile.bas{bottom:56px}
+.toile.haut{top:56px}
+.marque{position:absolute;top:150px;left:90px;font-size:22px;letter-spacing:.28em;text-transform:uppercase;font-weight:700;color:var(--vert)}
+.pager{position:absolute;top:150px;right:90px;font-size:22px;font-weight:500;color:var(--vert);letter-spacing:.1em}
+.num{font-family:'Playfair Display',serif;font-weight:800;font-size:250px;line-height:.8;color:var(--rouge);position:absolute;left:80px;top:240px}
+h2{font-family:'Playfair Display',serif;font-weight:800;font-size:92px;line-height:1;color:var(--vert);position:absolute;left:90px;top:520px}
+.txt{position:absolute;left:90px;top:660px;width:860px;font-size:38px;line-height:1.4}
+.txt b{color:var(--rouge)}
+.suite{position:absolute;bottom:150px;right:90px;font-size:24px;font-weight:700;color:var(--rouge);letter-spacing:.08em}
+/* couverture */
+.cover{background:var(--vert);color:var(--creme)}
+.cover .toile{background:linear-gradient(to bottom,var(--vert) 0 8px,var(--rouge) 8px 14px,var(--vert) 14px 20px,var(--creme) 20px 36px,var(--vert) 36px 42px,var(--rouge) 42px 48px,var(--vert) 48px 56px)}
+.cover .marque{color:var(--or)}
+.cover h1{font-family:'Playfair Display',serif;font-weight:800;font-size:128px;line-height:.98;position:absolute;left:90px;top:270px;width:900px}
+.cover h1 em{font-style:italic;font-weight:600;color:#F2B8A8}
+.cover .sous{position:absolute;left:90px;top:720px;font-size:40px;font-weight:500}
+.cover .sous span{display:inline-block;background:var(--rouge);padding:10px 22px;border-radius:6px}
+.cover .suite{color:var(--or)}
+/* CTA */
+.cta{background:var(--rouge);color:var(--creme)}
+.cta .toile{background:linear-gradient(to bottom,var(--rouge) 0 8px,var(--creme) 8px 14px,var(--rouge) 14px 20px,var(--vert) 20px 36px,var(--rouge) 36px 42px,var(--creme) 42px 48px,var(--rouge) 48px 56px)}
+.cta .marque,.cta .pager{color:var(--creme)}
+.cta h2{color:var(--creme);top:230px;font-size:104px;width:900px}
+.cta .txt{top:600px;font-size:38px}
+.cta .txt b{color:#FFD9C9}
+.bouton{position:absolute;left:90px;top:760px;background:var(--creme);color:var(--rouge);font-weight:700;font-size:40px;padding:30px 46px;border-radius:999px;box-shadow:0 8px 0 var(--vert)}
+.signature{position:absolute;left:90px;bottom:150px;font-family:'Playfair Display',serif;font-style:italic;font-size:30px}
+</style></head><body>
+
+<section class="slide cover" id="s1">
+ <div class="toile haut"></div>
+ <div class="marque">Maison Pierre Oteiza · Les Aldudes</div>
+ <h1>Bien préparer une planche <em>basque</em></h1>
+ <div class="sous"><span>3 gestes pour un apéro réussi</span></div>
+ <div class="suite">GLISSEZ →</div>
+ <div class="toile bas"></div>
+</section>
+
+<section class="slide" id="s2">
+ <div class="toile haut"></div>
+ <div class="marque">Pierre Oteiza</div><div class="pager">2 / 5</div>
+ <div class="num">1</div>
+ <h2>La découpe</h2>
+ <p class="txt">Le jambon se tranche <b>très finement</b>, presque transparent, pour libérer tous ses arômes. Le saucisson, en tranches <b>légèrement biseautées</b>.</p>
+ <div class="suite">→</div>
+ <div class="toile bas"></div>
+</section>
+
+<section class="slide" id="s3">
+ <div class="toile haut"></div>
+ <div class="marque">Pierre Oteiza</div><div class="pager">3 / 5</div>
+ <div class="num">2</div>
+ <h2>Les portions</h2>
+ <p class="txt">Comptez <b>60 à 80 g</b> de charcuterie par personne à l’apéritif. Variez les plaisirs : jambon de Kintoa AOP, saucisson, chorizo, ventrèche.</p>
+ <div class="suite">→</div>
+ <div class="toile bas"></div>
+</section>
+
+<section class="slide" id="s4">
+ <div class="toile haut"></div>
+ <div class="marque">Pierre Oteiza</div><div class="pager">4 / 5</div>
+ <div class="num">3</div>
+ <h2>La présentation</h2>
+ <p class="txt">Des <b>plis</b> pour le jambon, des <b>éventails</b> pour le saucisson, et des touches de couleur : piment d’Espelette, cerises noires, fromage de brebis.</p>
+ <div class="suite">→</div>
+ <div class="toile bas"></div>
+</section>
+
+<section class="slide cta" id="s5">
+ <div class="toile haut"></div>
+ <div class="marque">Pierre Oteiza</div><div class="pager">5 / 5</div>
+ <h2>À vous de dresser la planche !</h2>
+ <p class="txt">Partagez votre création en story en identifiant <b>@pierreoteiza</b>.</p>
+ <div class="bouton">Nos spécialités sur pierreoteiza.com</div>
+ <div class="signature">Vivre et travailler au Pays Basque</div>
+ <div class="toile bas"></div>
+</section>
+</body></html>
