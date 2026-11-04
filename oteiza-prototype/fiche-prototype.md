@@ -13,7 +13,7 @@
 ## Règles de composition appliquées
 | Règle | Application |
 |---|---|
-| **Hiérarchie visuelle** | 1 grand chiffre → 1 titre → 2 lignes de texte maximum. L'œil lit dans l'ordre, une idée par slide. |
+| **Hiérarchie visuelle** | 1 grand chiffre → 1 titre → 3 lignes de texte maximum. L'œil lit dans l'ordre, une idée par slide. |
 | **Cohérence des couleurs** | 3 couleurs seulement : rouge basque `#A61E22`, vert sombre `#1E4634`, crème `#F4EDE0`. La couverture est verte, les slides de contenu crème et le CTA rouge. |
 | **Identité de marque** | Bandes inspirées du **linge basque** en haut et en bas de chaque slide, comme fil conducteur. Signature « Vivre et travailler au Pays Basque ». |
 | **Lisibilité** | Titres en serif (Playfair Display), qui donnent un caractère artisanal et premium, et texte en sans-serif (Inter) de 38 px, lisible sur mobile. Contraste fort entre le fond et le texte. Les mots-clés sont en gras rouge. |
