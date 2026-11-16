@@ -6,7 +6,7 @@ lines=json.load(open("lines.json"))
 ONLY=[int(x) for x in sys.argv[2].split(',')] if len(sys.argv)>2 else None
 for i,(who,text,_) in enumerate(lines):
     if ONLY and i not in ONLY:continue
-    v,sp,pitch=V[who];a,sr=k.create(text,voice=v,speed=sp,lang="en-us")
+    v,sp,pitch=V[who];sp*=1.12;a,sr=k.create(text,voice=v,speed=sp,lang="en-us")
     raw=f"voice/raw_{i:02d}.wav";sf.write(raw,a,sr)
     f=f"asetrate={int(sr*pitch)},aresample=48000,atempo={1/pitch:.5f}" if pitch!=1 else "aresample=48000"
     if who=="nox":f+=",aecho=0.8:0.6:90|180:0.25|0.12"

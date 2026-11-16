@@ -15,7 +15,7 @@ Narrator: one steady, deadpan tone (bm_george). Each character has their own voi
 | 7 | Moka | Can't we just do it... tomorrow? | The Big Yawn, z's. |
 | 8 | Narrator | He's not lazy. He's saving his energy. For later. Forever. | Moka's eyes close. |
 | 9 | Narrator | Zippy doesn't walk. He rolls, he flips, and he presses every button he finds. | Zippy kickflips on the skateboard. |
-| 10 | Zippy | What if we did something stupid? | Grin, sparks. |
+| 10 | Zippy | What if we did something silly? | Grin, sparks. |
 | 11 | Narrator | Nimi fixes everything Zippy breaks. | Glide to Nimi on her books. |
 | 12 | Nimi | I've already prepared three solutions. | Light bulb pops. |
 | 13 | Narrator | She has a plan for the plan. And a label maker. | Nimi nods, clipboard. |

@@ -40,7 +40,9 @@ function shotPose(id,t,s0,s1){const u=(t-s0)/Math.max(.01,s1-s0);let a,b,fov=40,
      if(t>APPEAR){const k=ss((t-APPEAR)/2.5);const nl=NOXPOP.clone().add(new V(0,1.7,0));a.l.lerp(nl,1);b.l.lerp(nl,1);a.p.add(new V(0,-.35,-.3*k));b.p.add(new V(0,-.35,-.6*k));roll=4*k;}
      break;}
    case"group":a={p:new V(0,3.0,15.2),l:new V(0,1.65,.8)};b={p:new V(0,2.85,14.2),l:new V(0,1.6,.8)};if(t>FLASH2)roll=-4*ss((t-FLASH2)/1.2);break;
-   case"outro":a={p:new V(3.2,5.2,24),l:new V(0,.4,0)};b={p:new V(4.4,6.3,28),l:new V(0,.2,0)};break;
+   case"outro":{a={p:new V(3.2,5.2,24),l:new V(0,.4,0)};b={p:new V(4.4,6.3,28),l:new V(0,.2,0)};
+     const ta=EV("ascend")[0];if(t>ta){const k=ss((t-ta)/(TL.end-ta-.3));const up=new V(0,9*k,-4*k);a.p.add(up);b.p.add(up);
+       const sky=new V(0,40,-30);a.l.lerp(sky,ss((t-ta)/(TL.end-ta-.6))*.9);b.l.lerp(sky,ss((t-ta)/(TL.end-ta-.6))*.9);}break;}
   }
   return{p:a.p.lerp(b.p,u),l:a.l.lerp(b.l,u),fov,roll:roll*Math.PI/180};}
 const SH=TL.shots.map((s,k)=>({id:s[0],s:s[1],g:s[2]/FPS,e:k+1<TL.shots.length?TL.shots[k+1][1]:TL.end}));
@@ -147,7 +149,7 @@ function drawBubble(l,t){
 }
 const LOGO="BLOOPIES",LCOL=["#ffc93d","#ff9b3d","#ff5f86","#ff7fc0","#3fb6ff","#39d6c8","#9a7bff","#c873ff"];
 function drawLogo(t){const l=TL.lines[20];const t0=l.words[1].s-.12;if(t<t0-.3)return;
-  ox.save();ox.textAlign="center";ox.textBaseline="middle";ox.lineJoin="round";
+  ox.save();ox.textAlign="center";ox.textBaseline="middle";ox.lineJoin="round";{const ta=EV("ascend")[0];if(t>ta)ox.translate(0,-140*ss((t-ta)/2.2));}
   const the=easeBack((t-t0+.25)/.3);if(the>0){ox.save();ox.translate(W/2,520);ox.scale(the,the);ox.font=`400 92px ${DISP}`;
     ox.lineWidth=34;ox.strokeStyle="#4a2a8a";ox.strokeText("THE",0,0);ox.lineWidth=14;ox.strokeStyle="#fff";ox.strokeText("THE",0,0);ox.fillStyle="#fff";ox.fillText("THE",0,0);ox.restore();}
   ox.font=`400 186px ${DISP}`;const ws=[...LOGO].map(ch=>ox.measureText(ch).width*.9),tot=ws.reduce((a,b)=>a+b,0);let x=W/2-tot/2;
@@ -158,6 +160,7 @@ function drawLogo(t){const l=TL.lines[20];const t0=l.words[1].s-.12;if(t<t0-.3)r
   ox.restore();}
 function drawOverlay(t){ox.clearRect(0,0,W,H);
   for(const l of TL.lines)if(l.who!=="n")drawBubble(l,t);
-  drawLogo(t);}
+  drawLogo(t);
+  const tw=EV("white")[0],wf=ss((t-tw)/.75);if(wf>0){ox.fillStyle=`rgba(255,255,255,${wf})`;ox.fillRect(0,0,W,H);}}
 window.FILM.overlay=function(n){FILM.frame(n,false);drawOverlay(n/FPS);return ov.toDataURL("image/png");};
 document.fonts.ready.then(()=>{window.FILM_READY=true;});

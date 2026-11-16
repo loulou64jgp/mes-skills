@@ -31,7 +31,7 @@ def pad(fs,dur):
     t=np.arange(len(x))/SR;return bf(x,1800,"lowpass")*np.minimum(1,t/1.2)*np.minimum(1,(dur-t)/1.0)/len(fs)/3
 
 # ---------------- MUSIC ----------------
-bpm=112;B=60/bpm;BAR=4*B
+bpm=120;B=60/bpm;BAR=4*B
 lines={l["i"]:l for l in TL["lines"]};S=lambda i:lines[i]["start"];E=lambda i:lines[i]["end"]
 mus=np.zeros(N)
 MAJ=[(53,[65,69,72]),(50,[62,65,69]),(46,[62,65,70]),(48,[64,67,72])]   # F Dm Bb C
@@ -98,6 +98,8 @@ for name,t,who in TL["events"]:
     elif name=="kick":place(fx,impact(),t-.02,.8)
     elif name=="flash":place(fx,sparkle(),t-.05,.6);place(fx,whoosh(.5)[::-1],t-.45,.6)
     elif name=="hop":[place(fx,boing(),t+d,.6) for d in(0,.12,.25,.35,.45)]
+    elif name=="ascend":place(fx,whoosh(1.6),t,.7)
+    elif name=="white":place(fx,sparkle(),t,.6);place(fx,glock(note(96),1.5),t+.3,.4)
     elif name in SFXMAP:place(fx,SFXMAP[name](),t,.8)
 for sid,t,g in TL["shots"]:
     if g>0:place(fx,whoosh(.55),t-.05,.45)

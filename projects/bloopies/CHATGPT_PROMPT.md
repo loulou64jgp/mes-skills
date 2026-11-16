@@ -37,7 +37,7 @@ Look: a round electric sky-blue ball (#45C8F5) wearing a hot-pink cap backwards,
 Personality: energetic, mischievous, playful, unpredictable, always moving, loves jokes, pranks and harmless chaos, curious about everything (especially buttons). Acts first, thinks later.
 Voice: high, zappy, too fast, interrupts.
 Signature move: kickflip with yellow sparks.
-Catchphrase: "What if we did something stupid?"
+Catchphrase: "What if we did something silly?"
 
 4) NIMI - The Little Genius (she/her)
 Look: a round lavender ball (#C3B3FF) with a small curl on top, big round black glasses, pink-iris eyes, a tiny pink bow tie, a yellow pencil tucked behind her "ear", and a wooden clipboard with a checklist. Sits on a stack of three books (blue, pink, mint).
@@ -68,6 +68,7 @@ Catchphrase: "You'll understand... when it's too late."
 5. Keep it cute, playful, funny and occasionally mysterious. Nox's darkness is stylish, never frightening.
 6. Content language: English. Keep lines short and punchy (most lines under 12 words).
 7. Narration (when used): one steady, deadpan narrator voice.
+8. The audience is children aged 4-10: kid-friendly words only. Never use "stupid", "dumb", "shut up" or similar; use "silly" instead.
 
 === EPISODE 1 (already made) ===
 "Meet the Bloopies" - a 65-second vertical intro with speech bubbles for every character line. The narrator introduces each friend; the camera reaches Nox's rock and it's empty ("...Nox?"); Nox appears in smoke right in front of the camera; at the end Zippy calls a group photo and Nox photobombs it. Final line: "The Bloopies. A very small island. Very big trouble."
