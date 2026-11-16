@@ -10,10 +10,10 @@ const fs=require('fs');const path=require('path');
  if(errs.length){console.log('ERR',errs.join('\n'));process.exit(1);}
  const t0=Date.now();
  for(let n=+from;n<=+to;n+=st){
-   const f=path.join(outDir,`f_${String(n).padStart(5,'0')}.png`);
+   const f=path.join(outDir,`${process.env.OVL?'o':'f'}_${String(n).padStart(5,'0')}.png`);
    if(fs.existsSync(f)){await p.evaluate(n=>FILM.frame(n,false),n);continue;}
    const LIST=process.env.LIST?process.env.LIST.split(',').map(Number):null;if(LIST&&!LIST.includes(n)){await p.evaluate(n=>FILM.frame(n,false),n);continue;}
-   const d=await p.evaluate(n=>FILM.frame(n,true),n);
+   const d=await p.evaluate(([n,o])=>o?FILM.overlay(n):FILM.frame(n,true),[n,!!process.env.OVL]);
    fs.writeFileSync(f,Buffer.from(d.split(',')[1],'base64'));
    if(n%30===0)console.log('frame',n,((Date.now()-t0)/1000).toFixed(1)+'s');
  }

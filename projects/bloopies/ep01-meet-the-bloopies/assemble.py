@@ -16,8 +16,8 @@ pre="""let __s=12345;Math.random=()=>(__s=(__s*16807)%2147483647)/2147483647;
 let FT=0;const now=()=>FT;const SFX=new Proxy({},{get:()=>()=>{}});
 """
 tail=tail.replace("  //__CHARLOOP__",loop)
-html=f"""<!doctype html><html><head><meta charset="utf-8"><style>html,body{{margin:0;background:#000}}canvas{{display:block;width:1440px;height:2560px}}</style></head><body>
-<canvas id="c" width="1440" height="2560"></canvas>
+html=f"""<!doctype html><html><head><meta charset="utf-8"><style>@font-face{{font-family:'Mochiy Pop One';src:url(fonts/node_modules/@fontsource/mochiy-pop-one/files/mochiy-pop-one-latin-400-normal.woff2)}}@font-face{{font-family:MPR;font-weight:800;src:url(fonts/node_modules/@fontsource/m-plus-rounded-1c/files/m-plus-rounded-1c-latin-800-normal.woff2)}}html,body{{margin:0;background:#000}}canvas{{display:block;width:1440px;height:2560px}}</style></head><body>
+<canvas id="c" width="1440" height="2560"></canvas><div style="font-family:'Mochiy Pop One'">a</div><div style="font-family:MPR;font-weight:800">a</div>
 <script src="lib/three.min.js"></script><script src="lib/CopyShader.js"></script><script src="lib/LuminosityHighPassShader.js"></script>
 <script src="lib/EffectComposer.js"></script><script src="lib/RenderPass.js"></script><script src="lib/ShaderPass.js"></script><script src="lib/UnrealBloomPass.js"></script>
 <script>window.__TL=null;</script><script src="timeline.js"></script>
