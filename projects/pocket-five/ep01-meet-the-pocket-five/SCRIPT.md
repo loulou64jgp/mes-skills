@@ -1,6 +1,6 @@
-# The Bloopies — Episode 1: "Meet the Bloopies"
+# The Pocket Five — Episode 1: "Meet the Pocket Five"
 
-Vertical 1080x1920 design, final 1440x2560, 30 fps, ~60 s. English only. Speech bubbles show every character line, word by word; the narrator has no on-screen text. "THE BLOOPIES" title pops in on the last line.
+Vertical 1080x1920 design, final 1440x2560, 30 fps, ~60 s. English only. Speech bubbles show every character line, word by word; the narrator has no on-screen text. "THE POCKET FIVE" title pops in on the last line.
 Facts: none needed. This is a character introduction; every joke comes from the character bible.
 Narrator: one steady, deadpan tone (bm_george). Each character has their own voice.
 
@@ -26,4 +26,4 @@ Narrator: one steady, deadpan tone (bm_george). Each character has their own voi
 | 18 | Zippy | Group photo! | Wide, everyone turns to camera. |
 | 19 | Sunny | Everybody, say cheese! | Sunny bounces. |
 | 20 | Moka | Cheese... | Shutter flash. Nox vanishes before it, appears in front: photobomb. |
-| 21 | Narrator | The Bloopies. A very small island. Very big trouble. | Pull back, island floating at dusk, Moka falls asleep. |
+| 21 | Narrator | The Pocket Five. A very small island. Very big trouble. | Pull back, island floating at dusk, Moka falls asleep. |

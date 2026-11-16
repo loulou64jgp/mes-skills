@@ -1,4 +1,4 @@
-// ================= FILM v2: "Meet the Bloopies" (playful cut) =================
+// ================= FILM v2: "Meet the Pocket Five" (playful cut) =================
 const TL=window.__TL,FPS=TL.fps,W=1440,H=2560;
 renderer.setPixelRatio(1);renderer.setSize(W,H,false);camera.fov=40;camera.aspect=W/H;camera.updateProjectionMatrix();
 const reduce=false,hovered=-1,ptr={in:false};const tmp=new V(),tmp2=new V();
@@ -244,16 +244,17 @@ function drawBubble(l,t){
   ox.font=`800 66px ${BODY}`;ox.fillStyle=ink;let k=0;
   lines.forEach((ln,j)=>{let x=bx+46;const y=by+138+j*82;for(const w of ln.split(" ")){const has=/[A-Za-z']/.test(w);if(has)k++;if(k>shownN&&has)break;ox.fillText(w,x,y);x+=ox.measureText(w+" ").width;}});
   ox.restore();}
-const LOGO="BLOOPIES",LCOL=["#ffc93d","#ff9b3d","#ff5f86","#ff7fc0","#3fb6ff","#39d6c8","#9a7bff","#c873ff"];
+const LCOL=["#ffc93d","#ff9b3d","#ff5f86","#ff7fc0","#3fb6ff","#39d6c8","#9a7bff","#c873ff","#ffc93d","#ff5f86"];
 function drawLogoAt(t,t0,cy,s,tOut){if(t<t0-.3)return;let out=1;if(tOut!=null){if(t>tOut+.2)return;if(t>tOut)out=1-(t-tOut)/.2;}
   ox.save();ox.textAlign="center";ox.textBaseline="middle";ox.lineJoin="round";ox.translate(W/2,cy);ox.scale(s*out,s*out);
   const the=easeBack((t-t0+.25)/.3);if(the>0){ox.save();ox.translate(0,-180);ox.scale(the,the);ox.font=`400 92px ${DISP}`;
     ox.lineWidth=34;ox.strokeStyle="#4a2a8a";ox.strokeText("THE",0,0);ox.lineWidth=14;ox.strokeStyle="#fff";ox.strokeText("THE",0,0);ox.fillStyle="#fff";ox.fillText("THE",0,0);ox.restore();}
-  ox.font=`400 186px ${DISP}`;const ws=[...LOGO].map(ch=>ox.measureText(ch).width*.9),tot=ws.reduce((a,b)=>a+b,0);let x=-tot/2;
-  [...LOGO].forEach((ch,k)=>{const p=easeBack((t-t0-k*.06)/.3);const cx=x+ws[k]/2;x+=ws[k];if(p<=0)return;
-    ox.save();ox.translate(cx,Math.sin(t*2.4+k*.8)*8);ox.rotate(Math.sin(t*3+k)*.03+(k%2?.05:-.05));ox.scale(p,p);
+  ox.font=`400 186px ${DISP}`;let gk=0;
+  [["POCKET",0],["FIVE",196]].forEach(([word,ry])=>{const ws=[...word].map(ch=>ox.measureText(ch).width*.9),tot=ws.reduce((a,b)=>a+b,0);let x=-tot/2;
+  [...word].forEach((ch,j)=>{const k=gk++;const p=easeBack((t-t0-k*.06)/.3);const cx=x+ws[j]/2;x+=ws[j];if(p<=0)return;
+    ox.save();ox.translate(cx,ry+Math.sin(t*2.4+k*.8)*8);ox.rotate(Math.sin(t*3+k)*.03+(k%2?.05:-.05));ox.scale(p,p);
     ox.lineWidth=44;ox.strokeStyle="#4a2a8a";ox.strokeText(ch,0,0);ox.lineWidth=20;ox.strokeStyle="#ffffff";ox.strokeText(ch,0,0);
-    const g=ox.createLinearGradient(0,-80,0,80);g.addColorStop(0,"#ffffff");g.addColorStop(.28,LCOL[k]);g.addColorStop(1,LCOL[k]);ox.fillStyle=g;ox.fillText(ch,0,0);ox.restore();});
+    const g=ox.createLinearGradient(0,-80,0,80);g.addColorStop(0,"#ffffff");g.addColorStop(.28,LCOL[k]);g.addColorStop(1,LCOL[k]);ox.fillStyle=g;ox.fillText(ch,0,0);ox.restore();});});
   ox.restore();}
 function drawCard(t,t0,key){if(t<t0||t>t0+2.35)return;const p=easeBack((t-t0)/.3),out=t>t0+2.1?Math.max(0,1-(t-t0-2.1)/.25):1;const s=p*out;if(s<=0)return;
   const col=BCOL[key];ox.save();ox.translate(W/2,330+Math.sin(t*3)*6);ox.rotate(-.03);ox.scale(s,s);ox.textAlign="center";ox.textBaseline="middle";ox.lineJoin="round";
@@ -276,16 +277,16 @@ function drawPolaroid(t){const t0=F_.polaroid;if(t<t0-.1||t>=F_.outro)return;
   ox.save();ox.beginPath();ox.rect(0,0,W,H);poly(hole,true);ox.fillStyle=g;ox.fill("evenodd");
   for(let k=0;k<26;k++){const x=(k*397)%W,y=(k*911)%H;ox.fillStyle="rgba(255,255,255,.55)";ox.beginPath();ox.arc(x,y,6+(k%3)*4,0,7);ox.fill();}
   ox.shadowColor="rgba(58,35,80,.35)";ox.shadowBlur=40;ox.shadowOffsetY=18;ox.beginPath();poly(outer,false);poly(hole,true);ox.fillStyle="#fffdf7";ox.fill("evenodd");ox.shadowColor="transparent";
-  ox.translate(cx,cy);ox.rotate(rot);ox.textAlign="center";ox.font=`400 64px ${DISP}`;ox.fillStyle="#6a4fc4";ox.fillText("Bloopies · Day 1",0,hh+bb*.62);ox.restore();}
+  ox.translate(cx,cy);ox.rotate(rot);ox.textAlign="center";ox.font=`400 64px ${DISP}`;ox.fillStyle="#6a4fc4";ox.fillText("Pocket Five · Day 1",0,hh+bb*.62);ox.restore();}
 function drawEnd(t){const tw=F_.white,wf=ss((t-tw)/.5);if(wf<=0)return;ox.fillStyle=`rgba(255,255,255,${wf})`;ox.fillRect(0,0,W,H);
-  drawLogoAt(t,E1("logo_end"),1080,1.12);const t2=E1("tagline");if(t>=t2){const s=easeBack((t-t2)/.35);ox.save();ox.translate(W/2,1480);ox.scale(s,s);
+  drawLogoAt(t,E1("logo_end"),1020,1.12);const t2=E1("tagline");if(t>=t2){const s=easeBack((t-t2)/.35);ox.save();ox.translate(W/2,1560);ox.scale(s,s);
     ox.font=`800 62px ${BODY}`;ox.textAlign="center";ox.textBaseline="middle";const L1="Five friends. One wobbly world.",L2="Endless adventures!";
     const w=Math.max(ox.measureText(L1).width,ox.measureText(L2).width)+110;rr(-w/2,-95,w,190,60);ox.fillStyle="#5b3bb8";ox.fill();ox.lineWidth=10;ox.strokeStyle="#ffffff";ox.stroke();
     ox.fillStyle="#fff";ox.fillText(L1,0,-38);ox.fillStyle="#ffe14a";ox.fillText(L2,0,42);ox.restore();}}
 function drawOverlay(t){ox.clearRect(0,0,W,H);
   drawPolaroid(t);
   for(const l of TL.lines)if(l.who!=="n")drawBubble(l,t);
-  drawLogoAt(t,E1("title"),620,.9,E1("whip")-.05);
+  drawLogoAt(t,E1("title"),560,.85,E1("whip")-.05);
   ["sunny","moka","zippy","nimi","nox"].forEach(k=>drawCard(t,E1("card_"+k),k));
   drawScream(t,E1("scream"));
   drawEnd(t);}
