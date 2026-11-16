@@ -70,11 +70,11 @@ fade=np.ones(N);fe=int(TL["end"]*SR);fade[fe-int(1.2*SR):fe]=np.linspace(1,0,int
 # ---------------- VOICE ----------------
 voice=np.zeros(N)
 for l in TL["lines"]:
-    a,sr=sf.read(f"voice/l_{l['i']:02d}.wav");a=a/np.max(np.abs(a))*.7;place(voice,a,l["start"])
+    a,sr=sf.read(f"voice/l_{l['i']:02d}.wav");a=a/np.max(np.abs(a))*(.8 if l['who']=='n' else .7);place(voice,a,l["start"])
 # sidechain duck: -7 dB under voice
 v=np.abs(voice);w=int(.05*SR);sm=np.convolve(v,np.ones(w)/w,"same")
 gate=(sm>.01).astype(float);k=int(.35*SR);gate=np.convolve(gate,np.ones(k)/k,"same").clip(0,1)
-mus*=1-gate*(1-10**(-7/20))
+mus*=1-gate*(1-10**(-11/20))
 
 # ---------------- SFX ----------------
 fx=np.zeros(N)
@@ -105,7 +105,7 @@ for sid,t,g in TL["shots"]:
     if g>0:place(fx,whoosh(.55),t-.05,.45)
 
 # ---------------- MIX (music +3 dB, SFX -6 dB, voice unchanged) ----------------
-MUS=.5*10**(3/20);FXG=.6*10**(-6/20)
+MUS=.5*10**(3/20)*10**(-5/20);FXG=.6*10**(-6/20)
 mix=voice+mus*MUS+fx*FXG
 mix=mix[:int(TL["end"]*SR)]
 peak=np.max(np.abs(mix));mix=mix/peak*.89
