@@ -116,7 +116,7 @@ function rr(x,y,w,h,r){ox.beginPath();ox.moveTo(x+r,y);ox.arcTo(x+w,y,x+w,y+h,r)
 const easeBack=x=>{const c=1.9;x=Math.max(0,Math.min(1,x));return 1+(c+1)*Math.pow(x-1,3)+c*Math.pow(x-1,2);};
 function drawBubble(l,t){
   const who=l.who,i=KEY[who],col=BCOL[who],dark=who==="nox";
-  const nx=TL.lines.find(m=>m.who!=="n"&&m.start>l.start);const tIn=l.start-.08,tOut=Math.min(l.end+.55,nx?nx.start-.2:1e9);if(t<tIn||t>tOut+.2)return;
+  const nx=TL.lines.find(m=>m.who!=="n"&&m.start>l.start);const tIn=l.start,tOut=Math.min(l.end+.55,nx?nx.start-.2:1e9);if(t<tIn||t>tOut+.2)return;
   const pin=easeBack((t-tIn)/.24),pout=t>tOut?1-Math.min(1,(t-tOut)/.18):1,sc=pin*pout;if(sc<=.01)return;
   const lines=wrap(l.text,980);ox.font=`800 66px ${BODY}`;
   const tw=Math.max(...lines.map(s=>ox.measureText(s).width),260),bw=tw+90,bh=lines.length*82+122;
