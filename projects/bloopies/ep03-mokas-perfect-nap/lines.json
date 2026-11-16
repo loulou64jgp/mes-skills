@@ -1,0 +1,23 @@
+[
+ ["moka","Finally... silence.",1.0,"silence"],
+ ["zippy","Coming through!",1.0,"coming"],
+ ["sunny","Come on, Moka! It's adventure time!",1.3,"adventure"],
+ ["zippy","Woohoo!",0.5,"woohoo"],
+ ["nimi","Test number one!",1.1,"test"],
+ ["moka","Why is everyone... awake?",1.4,"awake"],
+ ["nimi","I have calculated the perfect nap conditions.",1.0,"calc"],
+ ["nimi","Quiet zone. Shhh...",1.2,"quiet"],
+ ["nox","Silence. Finally.",2.0,"finally"],
+ ["zippy","Oops.",2.2,"oops"],
+ ["sunny","Ah... ah... achoo!",0.8,"achoo"],
+ ["nox","Almost.",0.6,"almost"],
+ ["nimi","Technically... this is impossible.",0.5,"impossible"],
+ ["moka","Haaah...",0.5,"sigh"],
+ ["moka","This... is perfect...",7.0,"perfect"],
+ ["nimi","Wait! Moka is leaving!",2.2,"leaving"],
+ ["sunny","Oh no! Moka!",0.3,"ohno"],
+ ["zippy","I'll get him!",0.4,"gethim"],
+ ["sunny","Moka! Are you coming back?",4.5,"comingback"],
+ ["moka","Can we do it tomorrow...?",1.2,"tomorrow"],
+ ["n","The Bloopies!",3.2,"brand"]
+]
