@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 // Génère les 2 slides d'un carrousel TikTok « lyrics » à partir d'un lien Spotify.
-// Usage : node make-slides.js <lien-spotify-track> <refrain.txt | -> <dossier-de-sortie> [--badge "#1 TOP 50"] [--accroche "Le son que tout TikTok utilise"]
-//   --badge / --accroche : optionnels, en gras dans la couleur la plus vive de la pochette
+// Usage : node make-slides.js <lien-spotify-track> <refrain.txt | -> <dossier-de-sortie> [--emoji "🍭"] [--artiste "Vacra, La Rvfleuze"]
+//   --emoji   : emoji dans le coin en haut à gauche de la slide 1 (optionnel)
+//   --artiste : nom affiché sous le titre (par défaut : artistes Spotify séparés par des virgules)
 //   slide 1 : titre au milieu + pochette (à cheval sur les 2 slides)
 //   slide 2 : refrain
 // Prérequis réseau : open.spotify.com et i.scdn.co autorisés.
@@ -22,10 +23,10 @@ function get(url) {
 }
 
 (async () => {
-  const args = process.argv.slice(2), opts = { badge: '', accroche: '' }, pos = [];
+  const args = process.argv.slice(2), opts = { emoji: '', artiste: null }, pos = [];
   for (let i = 0; i < args.length; i++) {
-    if (args[i] === '--badge') opts.badge = args[++i] || '';
-    else if (args[i] === '--accroche') opts.accroche = args[++i] || '';
+    if (args[i] === '--emoji') opts.emoji = args[++i] || '';
+    else if (args[i] === '--artiste') opts.artiste = args[++i] || '';
     else pos.push(args[i]);
   }
   const [url, lyricsPath, outArg] = pos;
@@ -56,8 +57,8 @@ function get(url) {
   await page.waitForTimeout(800);
   await page.fill('#title', title);
   await page.fill('#lyrics', lyrics);
-  await page.fill('#badge', opts.badge);
-  await page.fill('#hook', opts.accroche);
+  await page.fill('#artist', opts.artiste ?? ent.artists.map(a => a.name).join(', '));
+  await page.fill('#emoji', opts.emoji);
   await page.setInputFiles('#cover', coverPath);
   await page.waitForTimeout(1500);
 

@@ -82,19 +82,19 @@ input[type="range"] { flex: 1; accent-color: var(--accent); }
       </div>
 
       <div>
-        <label class="l" for="badge">Badge (optionnel)</label>
-        <input type="text" id="badge" value="#1 Top 50" placeholder="ex. #1 TOP 50, TENDANCE, NOUVEAUTÉ">
+        <label class="l" for="artist">Artiste(s), sous le titre</label>
+        <input type="text" id="artist" value="Nom de l'artiste" placeholder="ex. Vacra, La Rvfleuze">
       </div>
 
       <div>
-        <label class="l" for="hook">Accroche (optionnel)</label>
-        <input type="text" id="hook" value="Le son que tout TikTok utilise" placeholder="ex. N°1 en France cette semaine">
+        <label class="l" for="emoji">Emoji dans le coin (optionnel)</label>
+        <input type="text" id="emoji" value="🍭" placeholder="ex. 🍭 🔥 💸">
       </div>
 
       <div>
-        <span class="l">Couleur du badge et de l'accroche</span>
+        <span class="l">Couleur du nom de l'artiste</span>
         <div class="row">
-          <input type="color" id="accent" value="#f2a7c3" aria-label="Couleur du badge et de l'accroche">
+          <input type="color" id="accent" value="#f2a7c3" aria-label="Couleur du nom de l'artiste">
           <button type="button" id="autoAccent">Auto (depuis la pochette)</button>
         </div>
         <p class="hint" style="margin-top:6px">Par défaut, c'est la couleur la plus vive de la pochette, éclaircie pour bien ressortir sur le fond.</p>
@@ -295,33 +295,29 @@ Celui qui tourne sur TikTok</textarea>
     lines.forEach((l, i) => ctx.fillText(l, titleCx, cy + (i - (lines.length - 1) / 2) * tlh));
     if ("letterSpacing" in ctx) ctx.letterSpacing = "0px";
 
-    // Hook (bold, accent colour) above the title, then the badge above the hook.
+    // Artist name under the title: bold, in the cover's most vivid colour.
     const accent = $("accent").value;
-    const hook = $("hook").value.trim();
-    const badge = $("badge").value.trim().toUpperCase();
-    let top = cy - ((lines.length - 1) / 2) * tlh - fs * 0.5 - 56;
-    if (hook) {
-      let hs = 46, hl;
+    const artist = $("artist").value.trim();
+    if (artist) {
+      let as = 44, al;
       for (;;) {
-        ctx.font = `700 ${hs}px ${SLIDE_FONT}`;
-        hl = wrapLine(hook, titleMaxW);
-        if (hl.length <= 3 || hs <= 30) break;
-        hs -= 2;
+        ctx.font = `700 ${as}px ${SLIDE_FONT}`;
+        al = wrapLine(artist, titleMaxW);
+        if (al.length <= 2 || as <= 28) break;
+        as -= 2;
       }
-      const hlh = hs * 1.18;
-      ctx.fillStyle = accent; ctx.textBaseline = "alphabetic";
-      for (let i = hl.length - 1; i >= 0; i--) { ctx.fillText(hl[i], titleCx, top); top -= hlh; }
-      top -= 22;
+      ctx.fillStyle = accent; ctx.textBaseline = "top";
+      let ay = cy + ((lines.length - 1) / 2) * tlh + fs * 0.5 + 28;
+      al.forEach(l => { ctx.fillText(l, titleCx, ay); ay += as * 1.2; });
     }
-    if (badge) {
-      ctx.font = `700 34px ${SLIDE_FONT}`;
-      if ("letterSpacing" in ctx) ctx.letterSpacing = "2px";
-      const bw = Math.min(ctx.measureText(badge).width + 52, titleMaxW), bh = 64;
-      roundRect(titleCx - bw / 2, top - bh, bw, bh, bh / 2);
-      ctx.fillStyle = accent; ctx.fill();
-      ctx.fillStyle = bg; ctx.textBaseline = "middle";
-      ctx.fillText(badge, titleCx, top - bh / 2 + 2, bw - 40);
-      if ("letterSpacing" in ctx) ctx.letterSpacing = "0px";
+
+    // Emoji in the top-left corner of slide 1.
+    const emoji = $("emoji").value.trim();
+    if (emoji) {
+      ctx.font = `150px "Apple Color Emoji", "Noto Color Emoji", "Segoe UI Emoji", sans-serif`;
+      ctx.textAlign = "left"; ctx.textBaseline = "top";
+      ctx.fillText(emoji, 80, Math.round(H * 0.11));
+      ctx.textAlign = "center";
     }
     ctx.fillStyle = "#ffffff";
 
@@ -381,7 +377,7 @@ Celui qui tourne sur TikTok</textarea>
   $("autoBg").addEventListener("click", () => { manualBg = false; if (coverImg) $("bg").value = autoColor(coverImg); schedule(); });
   $("accent").addEventListener("input", () => { manualAccent = true; schedule(); });
   $("autoAccent").addEventListener("click", () => { manualAccent = false; if (coverImg) $("accent").value = accentColor(coverImg); schedule(); });
-  ["title", "badge", "hook", "lyrics", "size"].forEach(id => $(id).addEventListener("input", schedule));
+  ["title", "artist", "emoji", "lyrics", "size"].forEach(id => $(id).addEventListener("input", schedule));
   $("form").addEventListener("submit", e => e.preventDefault());
 
   const start = () => setCover(makeExampleCover(), "Choisir la pochette", "Exemple chargé, remplace-le par ta pochette");

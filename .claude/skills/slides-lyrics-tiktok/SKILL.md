@@ -8,7 +8,8 @@ description: Génère les 2 slides d'un carrousel TikTok « lyrics » (slide 1 t
 Format inspiré des comptes « lyrics » (style Music Package) : carrousel photo de 2 images en 1080×1920.
 
 - **Slide 1** : titre du son en majuscules, centré dans l'espace à gauche, sur un fond uni pris dans la pochette (assombri).
-- **Badge et accroche (optionnels)** au-dessus du titre, en gras, dans la couleur la plus vive de la pochette (rose pour une pochette rose, etc.). Badge = pastille pleine (ex. `#1 TOP 50`, `TENDANCE`, `NOUVEAUTÉ`), accroche = phrase courte (ex. « Le son que tout TikTok utilise », « N°1 en France cette semaine »).
+- **Sous le titre** : le nom des artistes en gras, dans la couleur la plus vive de la pochette (rose pour une pochette rose, etc.), séparés par des virgules.
+- **Emoji (optionnel)** en haut à gauche de la slide 1, en rapport avec le son (ex. 🍭 pour « Fille à Papa »).
 - **Slide 2** : le refrain, aligné à gauche, texte blanc.
 - La pochette est **à cheval sur les deux slides** : quand on swipe, l'image se continue.
 - Police : Helvetica (Nimbus Sans dans le conteneur).
@@ -29,7 +30,7 @@ Format inspiré des comptes « lyrics » (style Music Package) : carrousel photo
    ```bash
    node .claude/skills/slides-lyrics-tiktok/scripts/make-slides.js "<lien-spotify>" refrain.txt <dossier-de-sortie>
    ```
-   Ajouter `--badge "#1 Top 50"` et/ou `--accroche "Le son que tout TikTok utilise"` si l'utilisateur en veut (sans ces options : slide 1 sans badge ni accroche).
+   Ajouter `--emoji "🍭"` pour l'emoji du coin. Le nom des artistes vient de Spotify ; `--artiste "..."` pour l'écrire autrement.
    Mettre le dossier de sortie dans le scratchpad. `-` à la place du fichier = slide 2 sans paroles.
 3. Regarder une fois les 2 PNG, puis les envoyer à l'utilisateur avec SendUserFile (slide 1 puis slide 2).
 4. Proposer la légende : `Titre – Artistes` + `#rapfr #lyrics #<artiste> #<titre> #pourtoi`.
