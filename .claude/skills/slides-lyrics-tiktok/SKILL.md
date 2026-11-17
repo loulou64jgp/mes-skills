@@ -33,7 +33,10 @@ Format inspiré des comptes « lyrics » (style Music Package) : carrousel photo
    Ne pas passer `--emoji` (voir plus haut). Le nom des artistes vient de Spotify ; `--artiste "..."` pour l'écrire autrement.
    Mettre le dossier de sortie dans le scratchpad. `-` à la place du fichier = slide 2 sans paroles.
 3. Regarder une fois les 2 PNG, puis les envoyer à l'utilisateur avec SendUserFile (slide 1 puis slide 2).
-4. Proposer la légende : `Titre – Artistes` + `#rapfr #lyrics #<artiste> #<titre> #pourtoi`.
+4. Proposer pour chaque son, prêts à copier-coller :
+   - un **titre accrocheur** pour le champ « Titre » du post TikTok (90 caractères max). Il doit donner une raison de swiper ou de commenter : une question, un débat, une référence à la phrase culte du refrain, ou « le son que… ». Pas de fausse info (ne pas écrire « N°1 » si ce n'est pas vrai).
+   - la **légende** : `Titre – Artistes` + `#rapfr #lyrics #<artiste> #<titre> #pourtoi`.
+   - un **emoji** à ajouter soi-même en haut à gauche de la slide 1.
 
 Plusieurs sons dans un même message : lancer le script une fois par lien, avec un dossier de sortie par son.
 
