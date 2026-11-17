@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 // Génère les 2 slides d'un carrousel TikTok « lyrics » à partir d'un lien Spotify.
-// Usage : node make-slides.js <lien-spotify-track> <refrain.txt | -> <dossier-de-sortie>
+// Usage : node make-slides.js <lien-spotify-track> <refrain.txt | -> <dossier-de-sortie> [--badge "#1 TOP 50"] [--accroche "Le son que tout TikTok utilise"]
+//   --badge / --accroche : optionnels, en gras dans la couleur la plus vive de la pochette
 //   slide 1 : titre au milieu + pochette (à cheval sur les 2 slides)
 //   slide 2 : refrain
 // Prérequis réseau : open.spotify.com et i.scdn.co autorisés.
@@ -21,7 +22,13 @@ function get(url) {
 }
 
 (async () => {
-  const [url, lyricsPath, outArg] = process.argv.slice(2);
+  const args = process.argv.slice(2), opts = { badge: '', accroche: '' }, pos = [];
+  for (let i = 0; i < args.length; i++) {
+    if (args[i] === '--badge') opts.badge = args[++i] || '';
+    else if (args[i] === '--accroche') opts.accroche = args[++i] || '';
+    else pos.push(args[i]);
+  }
+  const [url, lyricsPath, outArg] = pos;
   if (!url || !outArg) fail('usage : node make-slides.js <lien-spotify-track> <refrain.txt | -> <dossier-de-sortie>');
   const m = url.match(/track\/([A-Za-z0-9]+)/);
   if (!m) fail(`ce n'est pas un lien de morceau Spotify (open.spotify.com/track/...) : ${url}`);
@@ -49,6 +56,8 @@ function get(url) {
   await page.waitForTimeout(800);
   await page.fill('#title', title);
   await page.fill('#lyrics', lyrics);
+  await page.fill('#badge', opts.badge);
+  await page.fill('#hook', opts.accroche);
   await page.setInputFiles('#cover', coverPath);
   await page.waitForTimeout(1500);
 

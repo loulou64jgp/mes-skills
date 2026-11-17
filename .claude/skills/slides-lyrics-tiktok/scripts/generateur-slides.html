@@ -82,6 +82,25 @@ input[type="range"] { flex: 1; accent-color: var(--accent); }
       </div>
 
       <div>
+        <label class="l" for="badge">Badge (optionnel)</label>
+        <input type="text" id="badge" value="#1 Top 50" placeholder="ex. #1 TOP 50, TENDANCE, NOUVEAUTÉ">
+      </div>
+
+      <div>
+        <label class="l" for="hook">Accroche (optionnel)</label>
+        <input type="text" id="hook" value="Le son que tout TikTok utilise" placeholder="ex. N°1 en France cette semaine">
+      </div>
+
+      <div>
+        <span class="l">Couleur du badge et de l'accroche</span>
+        <div class="row">
+          <input type="color" id="accent" value="#f2a7c3" aria-label="Couleur du badge et de l'accroche">
+          <button type="button" id="autoAccent">Auto (depuis la pochette)</button>
+        </div>
+        <p class="hint" style="margin-top:6px">Par défaut, c'est la couleur la plus vive de la pochette, éclaircie pour bien ressortir sur le fond.</p>
+      </div>
+
+      <div>
         <span class="l">Pochette de l'album</span>
         <label class="file" for="cover">
           <img id="coverThumb" alt="">
@@ -141,6 +160,7 @@ Celui qui tourne sur TikTok</textarea>
   const ctx = stage.getContext("2d");
   let coverImg = null;
   let manualBg = false;
+  let manualAccent = false;
 
   // Example cover (clearly an example) so the page opens with something to see.
   function makeExampleCover() {
@@ -191,6 +211,34 @@ Celui qui tourne sur TikTok</textarea>
     s = Math.min(s, 0.32);
     l = Math.max(0.16, Math.min(l * 0.75, 0.4));
     return hslToHex(h, s, l);
+  }
+
+  // Most vivid colour of the cover: hue histogram weighted by saturation,
+  // then pushed to a light, saturated tint that reads on the dark background.
+  function accentColor(img) {
+    const n = 48, c = document.createElement("canvas"); c.width = c.height = n;
+    const g = c.getContext("2d"); g.drawImage(img, 0, 0, n, n);
+    const d = g.getImageData(0, 0, n, n).data;
+    const bins = new Array(36).fill(0), sums = Array.from({ length: 36 }, () => [0, 0, 0]);
+    for (let i = 0; i < d.length; i += 4) {
+      const [h, s, l] = rgbToHsl(d[i], d[i + 1], d[i + 2]);
+      if (s < 0.18 || l < 0.12 || l > 0.95) continue;
+      const w = s;
+      const b = Math.floor(h * 36) % 36;
+      bins[b] += w; sums[b][0] += h * w; sums[b][1] += s * w; sums[b][2] += l * w;
+    }
+    let best = -1, bw = 0;
+    bins.forEach((w, i) => { const t = w + 0.5 * (bins[(i + 35) % 36] + bins[(i + 1) % 36]); if (t > bw) { bw = t; best = i; } });
+    if (best < 0 || bins[best] < 0.5) return "#ffffff";
+    const h = sums[best][0] / bins[best];
+    const s = Math.max(0.6, Math.min(sums[best][1] / bins[best] + 0.25, 0.85));
+    return hslToHex(h, s, 0.74);
+  }
+
+  function roundRect(x, y, w, h, r) {
+    ctx.beginPath(); ctx.moveTo(x + r, y);
+    ctx.arcTo(x + w, y, x + w, y + h, r); ctx.arcTo(x + w, y + h, x, y + h, r);
+    ctx.arcTo(x, y + h, x, y, r); ctx.arcTo(x, y, x + w, y, r); ctx.closePath();
   }
 
   function drawCoverSquare(img, x, y, size) {
@@ -247,6 +295,36 @@ Celui qui tourne sur TikTok</textarea>
     lines.forEach((l, i) => ctx.fillText(l, titleCx, cy + (i - (lines.length - 1) / 2) * tlh));
     if ("letterSpacing" in ctx) ctx.letterSpacing = "0px";
 
+    // Hook (bold, accent colour) above the title, then the badge above the hook.
+    const accent = $("accent").value;
+    const hook = $("hook").value.trim();
+    const badge = $("badge").value.trim().toUpperCase();
+    let top = cy - ((lines.length - 1) / 2) * tlh - fs * 0.5 - 56;
+    if (hook) {
+      let hs = 46, hl;
+      for (;;) {
+        ctx.font = `700 ${hs}px ${SLIDE_FONT}`;
+        hl = wrapLine(hook, titleMaxW);
+        if (hl.length <= 3 || hs <= 30) break;
+        hs -= 2;
+      }
+      const hlh = hs * 1.18;
+      ctx.fillStyle = accent; ctx.textBaseline = "alphabetic";
+      for (let i = hl.length - 1; i >= 0; i--) { ctx.fillText(hl[i], titleCx, top); top -= hlh; }
+      top -= 22;
+    }
+    if (badge) {
+      ctx.font = `700 34px ${SLIDE_FONT}`;
+      if ("letterSpacing" in ctx) ctx.letterSpacing = "2px";
+      const bw = Math.min(ctx.measureText(badge).width + 52, titleMaxW), bh = 64;
+      roundRect(titleCx - bw / 2, top - bh, bw, bh, bh / 2);
+      ctx.fillStyle = accent; ctx.fill();
+      ctx.fillStyle = bg; ctx.textBaseline = "middle";
+      ctx.fillText(badge, titleCx, top - bh / 2 + 2, bw - 40);
+      if ("letterSpacing" in ctx) ctx.letterSpacing = "0px";
+    }
+    ctx.fillStyle = "#ffffff";
+
     // Slide 2: chorus, left-aligned to the right of the cover, auto-fitted.
     ctx.textAlign = "left"; ctx.textBaseline = "alphabetic";
     const lx = W + W * 0.27, maxW = W * 2 - W * 0.05 - lx;
@@ -281,6 +359,7 @@ Celui qui tourne sur TikTok</textarea>
       $("coverThumb").src = img.src;
       $("coverName").textContent = name; $("coverSub").textContent = sub;
       if (!manualBg) $("bg").value = autoColor(img);
+      if (!manualAccent) $("accent").value = accentColor(img);
       schedule();
     };
     if (img.complete && img.naturalWidth) go(); else img.onload = go;
@@ -292,7 +371,7 @@ Celui qui tourne sur TikTok</textarea>
     const reader = new FileReader();
     reader.onload = () => {
       const img = new Image();
-      img.onload = () => { manualBg = false; setCover(img, f.name.length > 28 ? f.name.slice(0, 26) + "…" : f.name, "Touche pour changer de pochette"); };
+      img.onload = () => { manualBg = false; manualAccent = false; setCover(img, f.name.length > 28 ? f.name.slice(0, 26) + "…" : f.name, "Touche pour changer de pochette"); };
       img.onerror = () => { $("coverSub").textContent = "Image illisible : essaie un JPG ou un PNG."; };
       img.src = reader.result;
     };
@@ -300,12 +379,14 @@ Celui qui tourne sur TikTok</textarea>
   });
   $("bg").addEventListener("input", () => { manualBg = true; schedule(); });
   $("autoBg").addEventListener("click", () => { manualBg = false; if (coverImg) $("bg").value = autoColor(coverImg); schedule(); });
-  ["title", "lyrics", "size"].forEach(id => $(id).addEventListener("input", schedule));
+  $("accent").addEventListener("input", () => { manualAccent = true; schedule(); });
+  $("autoAccent").addEventListener("click", () => { manualAccent = false; if (coverImg) $("accent").value = accentColor(coverImg); schedule(); });
+  ["title", "badge", "hook", "lyrics", "size"].forEach(id => $(id).addEventListener("input", schedule));
   $("form").addEventListener("submit", e => e.preventDefault());
 
   const start = () => setCover(makeExampleCover(), "Choisir la pochette", "Exemple chargé, remplace-le par ta pochette");
   Promise.all([
-    document.fonts.load("500 60px Inter"), document.fonts.load("400 60px Inter")
+    document.fonts.load("500 60px Inter"), document.fonts.load("400 60px Inter"), document.fonts.load("700 40px \"Nimbus Sans\"")
   ]).catch(() => {}).then(start);
 })();
 </script>
