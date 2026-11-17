@@ -40,7 +40,8 @@ function get(url) {
   const nd = embed.match(/<script id="__NEXT_DATA__" type="application\/json">(.*?)<\/script>/s);
   if (!nd) fail('la page Spotify a changé de format : infos du morceau introuvables.');
   const ent = JSON.parse(nd[1]).props.pageProps.state.data.entity;
-  const title = ent.name;
+  // « Cuenta (feat. Meryl & Shay) » -> « Cuenta » : les artistes sont déjà écrits sous le titre.
+  const title = ent.name.replace(/\s*[([](feat|ft)\.?[^)\]]*[)\]]/i, '').trim() || ent.name;
   const artists = ent.artists.map(a => a.name).join(' & ');
   const img = ent.visualIdentity.image.sort((a, b) => b.maxWidth - a.maxWidth)[0].url;
 
