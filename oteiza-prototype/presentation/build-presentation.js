@@ -439,7 +439,7 @@ section = 'Clôture'; pres.addSection({ title: section });
 s = pres.addSlide({ sectionTitle: section }); s.background = { color: ECRU };
 [[5.33, 0.045, GAR], [5.405, 0.11, VERT], [5.545, 0.025, NUIT]].forEach(([y, h, c]) => s.addShape(pres.shapes.RECTANGLE, { x: 0, y, w: 10, h, fill: { color: c }, line: { color: c } }));
 txt(s, 'MAISON PIERRE OTEIZA · LES ALDUDES', { x: 0.5, y: 1.25, w: 9, h: 0.3, fontSize: 11, bold: true, color: VERT, charSpacing: 2, align: 'center' });
-txt(s, 'Merci pour votre attention', { x: 0.3, y: 1.7, w: 9.4, h: 1.0, fontSize: 42, bold: true, color: ENCRE, align: 'center', valign: 'middle' });
-txt(s, 'Vivre et travailler au Pays Basque', { x: 0.5, y: 3.0, w: 9, h: 0.3, fontSize: 12, color: DOUX, align: 'center' });
+txt(s, 'Vivre et travailler au Pays Basque', { x: 0.3, y: 1.7, w: 9.4, h: 1.0, fontSize: 36, bold: true, color: ENCRE, align: 'center', valign: 'middle' });
+txt(s, 'Stratégie de communication · Cas Pierre Oteiza', { x: 0.5, y: 3.0, w: 9, h: 0.3, fontSize: 12, color: DOUX, align: 'center' });
 
 pres.writeFile({ fileName: OUT }).then(f => console.log('écrit', f));
