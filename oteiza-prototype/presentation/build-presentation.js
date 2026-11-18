@@ -61,11 +61,8 @@ function tableau(s, rows, o) {
 function separation(num, titre, sous, photo) {
   section = 'Séance ' + num; pres.addSection({ title: section });
   const s = pres.addSlide({ masterName: 'SEPARATION', sectionTitle: section });
-  s.addImage({ path: im(photo), x: 5.6, y: 0, w: 4.4, h: 5.625, sizing: { type: 'cover', w: 4.4, h: 5.625 } });
-  s.addShape(pres.shapes.RECTANGLE, { x: 5.6, y: 0, w: 0.06, h: 5.625, fill: { color: GAR }, line: { color: GAR } });
-  txt(s, 'Séance ' + num, { x: 0.6, y: 1.35, w: 4.8, h: 0.5, fontSize: 18, bold: true, color: 'E9B8A8' });
-  txt(s, titre, { x: 0.6, y: 1.85, w: 4.8, h: 1.7, fontSize: 36, bold: true, color: ECRU, valign: 'top' });
-  txt(s, sous, { x: 0.6, y: 3.7, w: 4.6, h: 1.0, fontSize: 13, color: 'DCE6DD' });
+  [[5.33, 0.045, GAR], [5.405, 0.11, ECRU], [5.545, 0.025, GAR]].forEach(([y, h, c]) => s.addShape(pres.shapes.RECTANGLE, { x: 0, y, w: 10, h, fill: { color: c }, line: { color: c } }));
+  txt(s, 'Séance ' + num, { x: 0.5, y: 1.6, w: 9, h: 2.0, fontSize: 96, bold: true, color: ECRU, align: 'center', valign: 'middle' });
   return s;
 }
 function chiffre(s, x, y, w, grand, petit, col = GAR) {
@@ -76,15 +73,11 @@ function chiffre(s, x, y, w, grand, petit, col = GAR) {
 // ================= COUVERTURE =================
 section = 'Ouverture'; pres.addSection({ title: section });
 let s = pres.addSlide({ sectionTitle: section }); s.background = { color: ECRU };
-s.addImage({ path: im('partage'), x: 4.6, y: 0, w: 5.4, h: 5.625, sizing: { type: 'cover', w: 5.4, h: 5.625 } });
-[[0, 5.33], ].forEach(() => {});
-s.addShape(pres.shapes.RECTANGLE, { x: 0, y: 5.33, w: 4.6, h: 0.045, fill: { color: GAR }, line: { color: GAR } });
-s.addShape(pres.shapes.RECTANGLE, { x: 0, y: 5.405, w: 4.6, h: 0.11, fill: { color: VERT }, line: { color: VERT } });
-s.addShape(pres.shapes.RECTANGLE, { x: 0, y: 5.545, w: 4.6, h: 0.025, fill: { color: NUIT }, line: { color: NUIT } });
-txt(s, 'MAISON PIERRE OTEIZA · LES ALDUDES', { x: 0.5, y: 0.55, w: 4.0, h: 0.3, fontSize: 9, bold: true, color: VERT, charSpacing: 1.5 });
-txt(s, 'Stratégie de communication', { x: 0.5, y: 1.25, w: 3.9, h: 1.5, fontSize: 36, bold: true, color: ENCRE });
-txt(s, [{ text: 'Le Pays Basque, ', options: { color: ENCRE } }, { text: 'ça se partage.', options: { color: GAR } }], { x: 0.5, y: 2.9, w: 3.9, h: 0.5, fontSize: 18, bold: true });
-txt(s, 'Cas Pierre Oteiza · Séances 1 à 7', { x: 0.5, y: 4.55, w: 3.9, h: 0.3, fontSize: 11, color: DOUX });
+[[5.33, 0.045, GAR], [5.405, 0.11, VERT], [5.545, 0.025, NUIT]].forEach(([y, h, c]) => s.addShape(pres.shapes.RECTANGLE, { x: 0, y, w: 10, h, fill: { color: c }, line: { color: c } }));
+txt(s, 'MAISON PIERRE OTEIZA · LES ALDUDES', { x: 0.5, y: 1.25, w: 9, h: 0.3, fontSize: 11, bold: true, color: VERT, charSpacing: 2, align: 'center' });
+txt(s, 'Stratégie de communication', { x: 0.3, y: 1.7, w: 9.4, h: 1.0, fontSize: 42, bold: true, color: ENCRE, align: 'center', valign: 'middle' });
+txt(s, [{ text: 'Le Pays Basque, ', options: { color: ENCRE } }, { text: 'ça se partage.', options: { color: GAR } }], { x: 0.5, y: 2.95, w: 9, h: 0.55, fontSize: 24, bold: true, align: 'center' });
+txt(s, 'Cas Pierre Oteiza · Séances 1 à 7', { x: 0.5, y: 4.3, w: 9, h: 0.3, fontSize: 12, color: DOUX, align: 'center' });
 
 // ================= SOMMAIRE =================
 s = contenu('Sommaire');
