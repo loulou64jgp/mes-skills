@@ -436,10 +436,10 @@ txt(s, 'Personne fictive et photo générée par IA pour la maquette.', { x: 0.5
 
 // ================= FIN =================
 section = 'Clôture'; pres.addSection({ title: section });
-s = pres.addSlide({ sectionTitle: section }); s.background = { color: VERT };
-s.addImage({ path: im('partage'), x: 0, y: 0, w: 10, h: 5.625, sizing: { type: 'cover', w: 10, h: 5.625 }, transparency: 70 });
-txt(s, 'Le Pays Basque,', { x: 0.6, y: 1.6, w: 8.8, h: 0.9, fontSize: 44, bold: true, color: ECRU });
-txt(s, 'ça se partage.', { x: 0.6, y: 2.45, w: 8.8, h: 0.9, fontSize: 44, bold: true, color: 'F3B9A6' });
-txt(s, 'Maison Pierre Oteiza · Vivre et travailler au Pays Basque', { x: 0.6, y: 3.6, w: 8.8, h: 0.4, fontSize: 14, color: ECRU });
+s = pres.addSlide({ sectionTitle: section }); s.background = { color: ECRU };
+[[5.33, 0.045, GAR], [5.405, 0.11, VERT], [5.545, 0.025, NUIT]].forEach(([y, h, c]) => s.addShape(pres.shapes.RECTANGLE, { x: 0, y, w: 10, h, fill: { color: c }, line: { color: c } }));
+txt(s, 'MAISON PIERRE OTEIZA · LES ALDUDES', { x: 0.5, y: 1.25, w: 9, h: 0.3, fontSize: 11, bold: true, color: VERT, charSpacing: 2, align: 'center' });
+txt(s, 'Merci pour votre attention', { x: 0.3, y: 1.7, w: 9.4, h: 1.0, fontSize: 42, bold: true, color: ENCRE, align: 'center', valign: 'middle' });
+txt(s, 'Vivre et travailler au Pays Basque', { x: 0.5, y: 3.0, w: 9, h: 0.3, fontSize: 12, color: DOUX, align: 'center' });
 
 pres.writeFile({ fileName: OUT }).then(f => console.log('écrit', f));
