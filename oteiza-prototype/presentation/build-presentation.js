@@ -76,8 +76,7 @@ let s = pres.addSlide({ sectionTitle: section }); s.background = { color: ECRU }
 [[5.33, 0.045, GAR], [5.405, 0.11, VERT], [5.545, 0.025, NUIT]].forEach(([y, h, c]) => s.addShape(pres.shapes.RECTANGLE, { x: 0, y, w: 10, h, fill: { color: c }, line: { color: c } }));
 txt(s, 'MAISON PIERRE OTEIZA · LES ALDUDES', { x: 0.5, y: 1.25, w: 9, h: 0.3, fontSize: 11, bold: true, color: VERT, charSpacing: 2, align: 'center' });
 txt(s, 'Stratégie de communication', { x: 0.3, y: 1.7, w: 9.4, h: 1.0, fontSize: 42, bold: true, color: ENCRE, align: 'center', valign: 'middle' });
-txt(s, [{ text: 'Le Pays Basque, ', options: { color: ENCRE } }, { text: 'ça se partage.', options: { color: GAR } }], { x: 0.5, y: 2.95, w: 9, h: 0.55, fontSize: 24, bold: true, align: 'center' });
-txt(s, 'Cas Pierre Oteiza · Séances 1 à 7', { x: 0.5, y: 4.3, w: 9, h: 0.3, fontSize: 12, color: DOUX, align: 'center' });
+txt(s, 'Cas Pierre Oteiza · Séances 1 à 7', { x: 0.5, y: 3.0, w: 9, h: 0.3, fontSize: 12, color: DOUX, align: 'center' });
 
 // ================= SOMMAIRE =================
 s = contenu('Sommaire');
