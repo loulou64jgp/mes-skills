@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8">
+<title>Affiche A3 Pierre Oteiza</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+@page{size:297mm 420mm;margin:0}
+:root{--ecru:#EEE5D0;--ecru-ombre:#E2D6BC;--garance:#AE2A2C;--vert:#2E5B3F;--nuit:#1F3557;--encre:#2B211C;--encre-douce:#5A4A3F}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:297mm;height:420mm}
+body{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.affiche{width:297mm;height:420mm;position:relative;overflow:hidden;color:var(--encre);font-family:'Hanken Grotesk',sans-serif;
+  background:repeating-linear-gradient(0deg,rgba(90,70,50,.05) 0 1px,transparent 1px 4px),repeating-linear-gradient(90deg,rgba(90,70,50,.045) 0 1px,transparent 1px 5px),var(--ecru)}
+.photo{position:absolute;left:0;top:0;width:297mm;height:228mm;overflow:hidden}
+.photo img{width:100%;height:100%;object-fit:cover;object-position:50% 45%;display:block}
+.bande{position:absolute;left:0;right:0}
+.bande::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(90deg,rgba(255,255,255,.07) 0 2px,transparent 2px 6px)}
+.accroche{position:absolute;left:22mm;top:258mm;width:260mm;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;
+  font-variation-settings:"wdth" 80,"opsz" 96;font-size:39mm;line-height:.86;letter-spacing:-.03em}
+.accroche em{font-style:normal;color:var(--garance)}
+.texte{position:absolute;left:22mm;top:333mm;width:150mm;font-size:6.2mm;line-height:1.38;color:var(--encre)}
+.texte strong{color:var(--garance);font-weight:700}
+.cta{position:absolute;left:22mm;top:361mm;display:inline-flex;align-items:center;gap:4mm;background:var(--garance);color:var(--ecru);
+  padding:4.2mm 7mm;border-radius:20mm;font-weight:700;font-size:6.4mm;box-shadow:0 2.5mm 5mm -2mm rgba(174,42,44,.5)}
+.qr{position:absolute;right:22mm;top:328mm;width:40mm;text-align:center}
+.qr img{width:40mm;height:40mm;display:block;background:var(--ecru);padding:2.5mm;box-sizing:content-box;margin-left:-2.5mm}
+.qr span{display:block;font-size:3.6mm;font-weight:600;color:var(--encre-douce);margin-top:2mm}
+.logo{position:absolute;left:22mm;top:20mm;color:var(--ecru);text-shadow:0 .6mm 3mm rgba(0,0,0,.45)}
+.logo b{display:block;font-family:'Bricolage Grotesque';font-weight:800;font-variation-settings:"wdth" 85;font-size:12mm;letter-spacing:.06em;line-height:1}
+.logo span{display:block;font-weight:600;font-size:4mm;letter-spacing:.32em;text-transform:uppercase;margin-top:2mm}
+.slogan{position:absolute;right:22mm;top:394mm;font-family:'Bricolage Grotesque';font-weight:700;font-size:5mm;color:var(--ecru);letter-spacing:.02em}
+.sanitaire{position:absolute;left:0;right:0;top:407.5mm;text-align:center;font-size:3.3mm;color:var(--encre)}
+.url{position:absolute;left:22mm;top:394mm;font-weight:700;font-size:5mm;color:var(--ecru);letter-spacing:.08em}
+</style></head><body>
+<section class="affiche" id="affiche">
+  <div class="photo"><img src="img/planche.jpg" alt="Planche de charcuteries basques posée sur un linge basque"></div>
+  <div class="logo"><b>PIERRE OTEIZA</b><span>Les Aldudes · Pays Basque</span></div>
+
+  <div class="bande" style="top:228mm;height:5mm;background:var(--garance)"></div>
+  <div class="bande" style="top:235mm;height:2mm;background:var(--ecru-ombre)"></div>
+  <div class="bande" style="top:239mm;height:2.5mm;background:var(--vert)"></div>
+
+  <h1 class="accroche">Le Pays Basque,<br><em>ça se partage.</em></h1>
+  <p class="texte">Jambon de <strong>Kintoa AOP</strong>, porc basque Pie Noir élevé en plein air aux Aldudes. Une histoire de famille depuis 1987.</p>
+  <div class="cta">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.1-7-11.5A7 7 0 0 1 19 9.5C19 14.9 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>
+    Venez le vivre aux Aldudes</div>
+  <div class="qr"><img src="img/qr.svg" alt="QR code vers pierreoteiza.com"><span>Boutiques et e-shop</span></div>
+
+  <div class="bande" style="top:384mm;height:4mm;background:var(--garance)"></div>
+  <div class="bande" style="top:389.5mm;height:15mm;background:var(--vert)"></div>
+  <div class="bande" style="top:405.5mm;height:1.2mm;background:var(--nuit)"></div>
+  <div class="url">pierreoteiza.com</div>
+  <div class="slogan">Vivre et travailler au Pays Basque</div>
+  <p class="sanitaire">Pour votre santé, évitez de manger trop gras, trop sucré, trop salé. www.mangerbouger.fr</p>
+</section>
+</body></html>
