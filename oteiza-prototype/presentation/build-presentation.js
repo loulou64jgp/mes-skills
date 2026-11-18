@@ -84,18 +84,18 @@ s.addShape(pres.shapes.RECTANGLE, { x: 0, y: 5.545, w: 4.6, h: 0.025, fill: { co
 txt(s, 'MAISON PIERRE OTEIZA · LES ALDUDES', { x: 0.5, y: 0.55, w: 4.0, h: 0.3, fontSize: 9, bold: true, color: VERT, charSpacing: 1.5 });
 txt(s, 'Stratégie de communication', { x: 0.5, y: 1.25, w: 3.9, h: 1.5, fontSize: 36, bold: true, color: ENCRE });
 txt(s, [{ text: 'Le Pays Basque, ', options: { color: ENCRE } }, { text: 'ça se partage.', options: { color: GAR } }], { x: 0.5, y: 2.9, w: 3.9, h: 0.5, fontSize: 18, bold: true });
-txt(s, 'Cas Pierre Oteiza · Séances 1 à 6', { x: 0.5, y: 4.55, w: 3.9, h: 0.3, fontSize: 11, color: DOUX });
+txt(s, 'Cas Pierre Oteiza · Séances 1 à 7', { x: 0.5, y: 4.55, w: 3.9, h: 0.3, fontSize: 11, color: DOUX });
 
 // ================= SOMMAIRE =================
 s = contenu('Sommaire');
-const som = [['1', 'Brief et diagnostic', 'Brief, fiche annonceur, SWOT, PESTEL'], ['2', 'Positionnement, cibles et objectifs', 'Positionnement, cibles, objectifs CAC'], ['3', 'Mix de communication', 'État des lieux, solutions, quatre questions'], ['4', 'Stratégie digitale', 'Plateformes, banque d’idées, calendriers, prototypes'], ['5', 'Budget, planning et KPI', 'Budget ventilé, Gantt sur 12 semaines, indicateurs'], ['6', 'Création graphique', 'Brief créatif, affiche A3, justification']];
+const som = [['1', 'Brief et diagnostic', 'Brief, fiche annonceur, SWOT, PESTEL'], ['2', 'Positionnement, cibles et objectifs', 'Positionnement, cibles, objectifs CAC'], ['3', 'Mix de communication', 'État des lieux, solutions, quatre questions'], ['4', 'Stratégie digitale', 'Plateformes, banque d’idées, calendriers, prototypes'], ['5', 'Budget, planning et KPI', 'Budget ventilé, Gantt sur 12 semaines, indicateurs'], ['6', 'Création graphique', 'Brief créatif, affiche A3, justification'], ['7', 'Ambassadorat', 'Journée des Ambassadeurs, post LinkedIn']];
 som.forEach((r, i) => {
-  const col = i % 2, row = Math.floor(i / 2), x = 0.5 + col * 4.6, y = 1.2 + row * 1.2;
-  carte(s, x, y, 4.4, 1.0);
-  s.addShape(pres.shapes.OVAL, { x: x + 0.2, y: y + 0.22, w: 0.56, h: 0.56, fill: { color: i % 2 ? VERT : GAR }, line: { color: i % 2 ? VERT : GAR } });
-  txt(s, r[0], { x: x + 0.2, y: y + 0.22, w: 0.56, h: 0.56, fontSize: 18, bold: true, color: ECRU, align: 'center', valign: 'middle' });
-  txt(s, r[1], { x: x + 0.95, y: y + 0.2, w: 3.3, h: 0.32, fontSize: 13, bold: true });
-  txt(s, r[2], { x: x + 0.95, y: y + 0.55, w: 3.3, h: 0.3, fontSize: 10, color: DOUX });
+  const col = i % 2, row = Math.floor(i / 2), x = i === 6 ? 2.8 : 0.5 + col * 4.6, y = 1.05 + row * 0.98;
+  carte(s, x, y, 4.4, 0.85);
+  s.addShape(pres.shapes.OVAL, { x: x + 0.2, y: y + 0.15, w: 0.56, h: 0.56, fill: { color: i % 2 ? VERT : GAR }, line: { color: i % 2 ? VERT : GAR } });
+  txt(s, r[0], { x: x + 0.2, y: y + 0.15, w: 0.56, h: 0.56, fontSize: 18, bold: true, color: ECRU, align: 'center', valign: 'middle' });
+  txt(s, r[1], { x: x + 0.95, y: y + 0.13, w: 3.3, h: 0.32, fontSize: 13, bold: true });
+  txt(s, r[2], { x: x + 0.95, y: y + 0.47, w: 3.3, h: 0.3, fontSize: 10, color: DOUX });
 });
 
 // ================= SÉANCE 1 =================
@@ -408,6 +408,39 @@ bloc(s, 0.5, 1.05, 4.4, 3.8, J[0][0], J[0][1], { bs: 15, ts: 15 });
 bloc(s, 5.1, 1.05, 4.4, 3.8, J[1][0], J[1][1], { bs: 13, ts: 15, fill: VERT });
 s = contenu('Justification créative (2/2)');
 J.slice(2).forEach((q, i) => bloc(s, 0.5 + i * 3.05, 1.05, 2.9, 3.8, q[0], q[1], { bs: 12, ts: 12.5, fill: i === 1 ? GAR : undefined }));
+
+
+// ================= SÉANCE 7 =================
+separation(7, 'Ambassadorat', 'De l’événement interne à la communication externe', 'rencontre');
+
+s = contenu('L’ambassadorat chez Pierre Oteiza');
+carte(s, 0.5, 1.05, 9, 1.15, VERT);
+txt(s, 'L’ambassadorat consiste à faire des collaborateurs les porte-parole de leur entreprise : ils communiquent sur la Maison de manière positive, avec leurs propres réseaux sociaux.', { x: 0.75, y: 1.18, w: 8.5, h: 0.9, fontSize: 15, bold: true, color: ECRU, valign: 'middle' });
+txt(s, 'Pour Pierre Oteiza, c’est une suite logique : le brief cite déjà un réseau d’ambassadeurs, et la cible interne (salariés et famille Oteiza) a été identifiée en séance 2, avec un frein possible, le manque de reconnaissance ou d’information.', { x: 0.5, y: 2.45, w: 9, h: 0.8, fontSize: 13 });
+[['Fierté', 'Répond au frein de la cible interne et renforce l’appartenance à une Maison familiale.'], ['Authenticité', 'Illustre l’« histoire humaine » avec de vraies personnes et de vrais gestes.'], ['Peu coûteux', 'Lieux existants aux Aldudes, diffusion par les comptes des salariés.'], ['Volontariat', 'Personne n’est obligé de publier ; règles expliquées pendant l’atelier.']]
+ .forEach((c, i) => bloc(s, 0.5 + i * 2.3, 3.35, 2.15, 1.5, c[0], c[1], { bs: 10.5, ts: 13 }));
+
+s = contenu('De l’événement interne à la communication externe');
+[['1', 'L’événement interne', 'La Journée des Ambassadeurs réunit toutes les équipes aux Aldudes : élevage de porcs basques Pie Noir, séchoir de la vallée, échange avec Pierre et Frantxoa, puis un atelier pour apprendre à raconter son métier sur les réseaux.', GAR],
+ ['2', 'Le passage à l’externe', 'Chaque collaborateur volontaire publie sur son propre compte, surtout LinkedIn. La Maison fournit un kit : photos de la journée, hashtag commun, idées de sujets. Chacun écrit avec ses mots.', VERT],
+ ['3', 'Dans la durée', 'Les ambassadeurs partagent régulièrement les coulisses de leur métier. La parole d’un salarié est perçue comme plus sincère qu’une publicité et touche des publics que la page de la marque n’atteint pas.', NUIT]]
+ .forEach((c, i) => {
+   const x = 0.5 + i * 3.05; carte(s, x, 1.1, 2.9, 3.75);
+   s.addShape(pres.shapes.OVAL, { x: x + 0.2, y: 1.28, w: 0.62, h: 0.62, fill: { color: c[3] }, line: { color: c[3] } });
+   txt(s, c[0], { x: x + 0.2, y: 1.28, w: 0.62, h: 0.62, fontSize: 22, bold: true, color: ECRU, align: 'center', valign: 'middle' });
+   txt(s, c[1], { x: x + 0.95, y: 1.3, w: 1.85, h: 0.6, fontSize: 14, bold: true, color: c[3], valign: 'middle' });
+   txt(s, c[2], { x: x + 0.2, y: 2.1, w: 2.5, h: 2.6, fontSize: 12 });
+ });
+
+s = contenu('Exemple : le post LinkedIn d’une ambassadrice');
+s.addImage({ path: im('linkedin-visuel'), x: 0.5, y: 0.98, w: 3.04, h: 3.8 });
+const liTxt = 'Il y a des journées qui rappellent pourquoi on aime son métier.\nHier, toutes les équipes de la Maison Pierre Oteiza se sont retrouvées aux Aldudes pour notre première Journée des Ambassadeurs : boutiques, production, restauration, de Bayonne à Paris.\nAu programme : la visite de l’élevage de porcs basques Pie Noir, le séchoir où notre Jambon de Kintoa AOP s’affine 18 à 24 mois, un échange avec Pierre et Frantxoa, et un atelier pour raconter notre métier sur les réseaux.\nCe que je retiens : derrière chaque tranche que je sers en boutique, il y a une race sauvée, une vallée et une famille. Et j’ai envie de vous le raconter.\n#VivreEtTravaillerAuPaysBasque #PierreOteiza #Aldudes';
+carte(s, 4.0, 0.98, 5.5, 4.0);
+s.addShape(pres.shapes.OVAL, { x: 4.2, y: 1.15, w: 0.5, h: 0.5, fill: { color: VERT }, line: { color: VERT } });
+txt(s, 'ME', { x: 4.2, y: 1.15, w: 0.5, h: 0.5, fontSize: 11, bold: true, color: ECRU, align: 'center', valign: 'middle' });
+txt(s, [{ text: 'Maddi Etxeberri', options: { bold: true, fontSize: 12, breakLine: true } }, { text: 'Conseillère de vente · Maison Pierre Oteiza, boutique de Bayonne', options: { fontSize: 9, color: DOUX } }], { x: 4.85, y: 1.13, w: 4.5, h: 0.55 });
+txt(s, liTxt, { x: 4.2, y: 1.8, w: 5.1, h: 3.1, fontSize: 9.5, paraSpaceAfter: 5 });
+txt(s, 'Personne fictive et photo générée par IA pour la maquette.', { x: 0.5, y: 4.83, w: 3.3, h: 0.2, fontSize: 8, italic: true, color: DOUX });
 
 // ================= FIN =================
 section = 'Clôture'; pres.addSection({ title: section });
