@@ -69,3 +69,7 @@ Si l'utilisateur envoie un enregistrement d'écran de Spotify (vue Paroles, avec
 - Le minutage des lignes peut se lire dans l'enregistrement (moment où chaque ligne passe en blanc dans la vue Paroles) quand LRCLIB n'a pas le son.
 - L'audio de l'enregistrement ne sert qu'à l'analyse : la vidéo à poster reste sans son (son officiel ajouté dans TikTok). Un aperçu avec le son peut être fait pour vérifier la synchro, à ne pas poster.
 - Pas encore branché dans `make-video.js` (étapes manuelles pour l'instant).
+
+## Format « bass » (en test, sans paroles)
+
+`scripts/bass.html` : même vinyle en plein écran, sans paroles ; anneau néon liquide qui se déforme sur les basses, couleurs qui tournent à chaque gros coup de basse, traînées de lumière horizontales, titre et artiste en bas. S'utilise avec les données `bass`/`bassKick` (voir plus haut) en mettant `"scene": "bass.html"` dans la config. Testé contre le format paroles : garder celui qui marche le mieux.
