@@ -60,3 +60,12 @@ Le compte ne poste **que des sons dont LRCLIB a le minutage** (décision de l'ut
 - `scripts/make-video.js` : Spotify (titre, artistes, durée, pochette) → LRCLIB (version synchronisée la plus proche de la durée Spotify, qui contient le refrain) → alignement vers par vers → rendu.
 - `scripts/render.js` : sert le dossier en HTTP local, pilote Chromium image par image, encode en H.264 avec ffmpeg.
 - `scripts/vinyle.html` : la scène (3D + composition 2D). Tous les réglages visuels sont là (`window.frame`).
+
+## Basses réelles (en test)
+
+Si l'utilisateur envoie un enregistrement d'écran de Spotify (vue Paroles, avec le son), le vinyle peut pomper sur les vraies basses :
+- `scripts/bass.py <enregistrement> <decalage_s> <duree_s> bass.json` mesure les basses (passe-bas 120 Hz) image par image ; ajouter `bass` et `bassKick` au JSON de config, `vinyle.html` les utilise automatiquement.
+- `decalage_s` = instant de l'enregistrement qui correspond au début de la vidéo (`songStart` + moment où la musique démarre dans l'enregistrement).
+- Le minutage des lignes peut se lire dans l'enregistrement (moment où chaque ligne passe en blanc dans la vue Paroles) quand LRCLIB n'a pas le son.
+- L'audio de l'enregistrement ne sert qu'à l'analyse : la vidéo à poster reste sans son (son officiel ajouté dans TikTok). Un aperçu avec le son peut être fait pour vérifier la synchro, à ne pas poster.
+- Pas encore branché dans `make-video.js` (étapes manuelles pour l'instant).
