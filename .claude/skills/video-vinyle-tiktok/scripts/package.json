@@ -1,0 +1,6 @@
+{
+  "name": "video-vinyle-tiktok",
+  "private": true,
+  "description": "Rendu des vidéos vinyle néon (Three.js dans Chromium headless).",
+  "dependencies": { "three": "0.160.0" }
+}
