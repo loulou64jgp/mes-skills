@@ -13,7 +13,8 @@ import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
 
 // V5 : vinyle « splatter » néon, visualiseur circulaire, bloom, aberration chromatique sur les temps forts,
 // intro macro sur les sillons. Le bas (titre, barre, paroles) est repris tel quel de la V3/V4.
-const W = 1080, H = 1920, GL_H = 1190;
+const W = 1080, H = 1920, GL_H = 930;
+const MAXW = 830;   // text stays left of TikTok's like/comment/share column
 const FONT = '"Nimbus Sans", "Helvetica Neue", Helvetica, Arial, sans-serif';
 let cfg, cover, bg, accent, accent2, renderer, composer, bloom, fx, scene, camera, tilt, spin, bars, BARS = 120, shock, sparks, sparkData, bgTex, bgCanvas, bgc;
 let comp, cx, bgLayer, lines, words;
@@ -176,7 +177,7 @@ window.frame = (t) => {
   // ---------- background: blurred cover + rotating rays ----------
   bgc.drawImage(bgLayer, 0, 0, W, GL_H, 0, 0, W, GL_H);
   bgc.save(); bgc.globalCompositeOperation = 'lighter';
-  const cxr = W / 2, cyr = 560, rays = 14;
+  const cxr = W / 2, cyr = 440, rays = 14;
   for (let i = 0; i < rays; i++) {
     const a = t * 0.12 + i * Math.PI * 2 / rays, w = 0.06 + 0.04 * Math.sin(i * 2.3);
     const g = bgc.createRadialGradient(cxr, cyr, 50, cxr, cyr, 1200);
@@ -251,15 +252,15 @@ window.frame = (t) => {
   // ---- V1 header: title + artist + player bar with the real song time ----
   const x0 = 90;
   cx.textAlign = 'left'; cx.textBaseline = 'alphabetic';
-  cx.fillStyle = '#ffffff'; cx.font = `700 64px ${FONT}`; cx.fillText(cfg.title.toUpperCase(), x0, 1225);
-  cx.fillStyle = accent; cx.font = `700 40px ${FONT}`; cx.fillText(cfg.artist, x0, 1280);
-  const songT = cfg.songStart + t, p = clamp(songT / cfg.songDuration, 0, 1), bw = W - 2 * x0;
-  cx.fillStyle = 'rgba(255,255,255,0.22)'; cx.fillRect(x0, 1318, bw, 6);
-  cx.fillStyle = '#fff'; cx.fillRect(x0, 1318, bw * p, 6);
-  cx.beginPath(); cx.arc(x0 + bw * p, 1321, 12, 0, Math.PI * 2); cx.fill();
+  cx.fillStyle = '#ffffff'; cx.font = `700 64px ${FONT}`; cx.fillText(cfg.title.toUpperCase(), x0, 975);
+  cx.fillStyle = accent; cx.font = `700 40px ${FONT}`; cx.fillText(cfg.artist, x0, 1030);
+  const songT = cfg.songStart + t, p = clamp(songT / cfg.songDuration, 0, 1), bw = MAXW;
+  cx.fillStyle = 'rgba(255,255,255,0.22)'; cx.fillRect(x0, 1068, bw, 6);
+  cx.fillStyle = '#fff'; cx.fillRect(x0, 1068, bw * p, 6);
+  cx.beginPath(); cx.arc(x0 + bw * p, 1071, 12, 0, Math.PI * 2); cx.fill();
   const mmss = s => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
   cx.font = `400 28px ${FONT}`; cx.fillStyle = 'rgba(255,255,255,0.6)';
-  cx.fillText(mmss(songT), x0, 1368); cx.textAlign = 'right'; cx.fillText('-' + mmss(cfg.songDuration - songT), W - x0, 1368); cx.textAlign = 'left';
+  cx.fillText(mmss(songT), x0, 1116); cx.textAlign = 'right'; cx.fillText('-' + mmss(cfg.songDuration - songT), x0 + MAXW, 1116); cx.textAlign = 'left';
 
   // ---- V1 scrolling list + V2 karaoke fill on the active line, timed from LRCLIB ----
   const T = cfg.times, n = lines.length;
@@ -267,15 +268,15 @@ window.frame = (t) => {
   const lineEnd = i => (i + 1 < n ? T[i + 1] : cfg.end);
   const since = idx >= 0 ? t - T[idx] : 0;
   // cumulative positions from each line's real wrapped height (measured at the active size)
-  const ACT = 68, BASE = 52, GAPL = 26;
+  const ACT = 78, BASE = 58, GAPL = 26;
   const pos = [0];
   for (let i = 0; i < n; i++) {
     cx.font = `700 ${ACT}px ${FONT}`; const sp = cx.measureText(' ').width; let rowsN = 1, ww = 0;
-    words[i].forEach(word => { const m = cx.measureText(word).width; if (ww && ww + sp + m > W - 2 * x0) { rowsN++; ww = m; } else ww += (ww ? sp : 0) + m; });
+    words[i].forEach(word => { const m = cx.measureText(word).width; if (ww && ww + sp + m > MAXW) { rowsN++; ww = m; } else ww += (ww ? sp : 0) + m; });
     pos.push(pos[i] + rowsN * ACT * 1.1 + GAPL);
   }
   const scrollY = idx <= 0 ? 0 : pos[idx - 1] + (pos[idx] - pos[idx - 1]) * easeIO(since / 0.3);
-  const y0 = 1490, top = 1405, bottom = 1790;
+  const y0 = 1245, top = 1155, bottom = 1470;
   cx.save(); cx.beginPath(); cx.rect(0, top, W, bottom - top); cx.clip();
   for (let i = 0; i < n; i++) {
     const y = y0 + pos[i] - scrollY;
@@ -288,7 +289,7 @@ window.frame = (t) => {
     const space = cx.measureText(' ').width;
     // wrap words into rows
     const rows = [[]]; let w = 0;
-    words[i].forEach(word => { const ww = cx.measureText(word).width; if (rows[rows.length - 1].length && w + space + ww > W - 2 * x0) { rows.push([]); w = 0; } rows[rows.length - 1].push({ word, ww }); w += (rows[rows.length - 1].length > 1 ? space : 0) + ww; });
+    words[i].forEach(word => { const ww = cx.measureText(word).width; if (rows[rows.length - 1].length && w + space + ww > MAXW) { rows.push([]); w = 0; } rows[rows.length - 1].push({ word, ww }); w += (rows[rows.length - 1].length > 1 ? space : 0) + ww; });
     const dur = lineEnd(i) - T[i], prog = active ? clamp(since / (dur * 0.9), 0, 1) : (i < idx ? 1 : 0);
     const nw = words[i].length; let kk = 0;
     rows.forEach((row, r) => {

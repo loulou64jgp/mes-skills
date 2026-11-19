@@ -23,6 +23,8 @@ Format validé par l'utilisateur (compte TikTok Repeat, @repeatmusique). Ne pas 
 
 Police : Helvetica (Nimbus Sans dans le conteneur).
 
+**Zone visible TikTok** : tout le texte reste entre y ≈ 950 et 1470 (sur 1920) et à gauche de x ≈ 920, pour ne pas passer sous la légende (en bas) ni sous les boutons j'aime/commentaires/partage (à droite). L'utilisateur trouvait le texte trop bas avant ce réglage.
+
 ## Choix des sons
 
 Le compte ne poste **que des sons dont LRCLIB a le minutage** (décision de l'utilisateur). Avant d'ajouter un son au planning, vérifier qu'une version synchronisée existe et contient le refrain (`synchro` doit commencer par « LRCLIB # » ; sinon, écarter le son et le dire à l'utilisateur).
