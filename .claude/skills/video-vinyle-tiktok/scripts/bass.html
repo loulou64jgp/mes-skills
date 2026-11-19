@@ -17,7 +17,7 @@ const W = 1080, H = 1920, GL_H = 1920;   // format « bass » : la 3D occupe tou
 const MAXW = 830;   // text stays left of TikTok's like/comment/share column
 const FONT = '"Nimbus Sans", "Helvetica Neue", Helvetica, Arial, sans-serif';
 let cfg, cover, bg, accent, accent2, renderer, composer, bloom, fx, scene, camera, tilt, spin, bars, BARS = 120, shock, sparks, sparkData, bgTex, bgCanvas, bgc;
-let comp, cx, bgLayer, lines, words;
+let comp, cx, bgLayer, lines, words, S = 1;   // S = suréchantillonnage (2 = 4K)
 const dummy = new THREE.Object3D();
 let labelRing, liquid, baseHue = 0, colorStep = [], colorSince = [];
 const LIQ = 256;
@@ -82,27 +82,27 @@ const FX = {
       vec2 off = d * amount * (0.5 + l * 2.0);
       vec3 c = vec3(texture2D(tDiffuse, vUv + off).r, texture2D(tDiffuse, vUv).g, texture2D(tDiffuse, vUv - off).b);
       c += flash * 0.10;
-      c += (rnd(vUv) - 0.5) * 0.045;                       // film grain
+      c += (rnd(vUv) - 0.5) * 0.012;                       // light film grain (keeps 4K files clean)
       float vig = smoothstep(0.95, 0.35, length(vec2(d.x * 1.1, max(d.y, 0.0) * 1.2)));
       gl_FragColor = vec4(c * mix(0.55, 1.0, vig), 1.0);
     }`
 };
 
 window.setup = async (config) => {
-  cfg = config;
+  cfg = config; S = cfg.scale || 1;
   await document.fonts.load(`700 60px ${FONT}`); await document.fonts.load(`400 60px ${FONT}`);
   cover = await new Promise((res, rej) => { const i = new Image(); i.onload = () => res(i); i.onerror = rej; i.src = cfg.cover; });
   bg = cfg.bg || bgColor(cover); [accent, accent2] = palette(cover);
   if (cfg.accent) accent = cfg.accent;
 
   renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
-  renderer.setSize(W, GL_H); renderer.setPixelRatio(1);
+  renderer.setSize(W * S, GL_H * S); renderer.setPixelRatio(1);
   scene = new THREE.Scene();
   camera = new THREE.PerspectiveCamera(48, W / GL_H, 0.05, 100);
 
   // background = blurred cover + rotating light rays, drawn in 2D each frame
   bgCanvas = document.createElement('canvas'); bgCanvas.width = W; bgCanvas.height = GL_H; bgc = bgCanvas.getContext('2d');
-  bgTex = new THREE.CanvasTexture(bgCanvas); bgTex.colorSpace = THREE.SRGBColorSpace; scene.background = bgTex;
+  bgTex = new THREE.CanvasTexture(bgCanvas); bgTex.colorSpace = THREE.SRGBColorSpace; scene.background = new THREE.Color(0x000000);   // fond noir
 
   // reflections
   const env = new THREE.Scene(); env.background = new THREE.Color(0x030304);
@@ -155,11 +155,11 @@ window.setup = async (config) => {
 
   composer = new EffectComposer(renderer);
   composer.addPass(new RenderPass(scene, camera));
-  bloom = new UnrealBloomPass(new THREE.Vector2(W, GL_H), 0.5, 0.45, 0.92); composer.addPass(bloom);
+  bloom = new UnrealBloomPass(new THREE.Vector2(W * S, GL_H * S), 0.5, 0.45, 0.92); composer.addPass(bloom);
   fx = new ShaderPass(FX); composer.addPass(fx);
   composer.addPass(new OutputPass());
 
-  comp = document.createElement('canvas'); comp.width = W; comp.height = H; cx = comp.getContext('2d');
+  comp = document.createElement('canvas'); comp.width = W * S; comp.height = H * S; cx = comp.getContext('2d');
   bgLayer = document.createElement('canvas'); bgLayer.width = W; bgLayer.height = H; const b = bgLayer.getContext('2d');
   b.fillStyle = bg; b.fillRect(0, 0, W, H);
   b.save(); b.globalAlpha = 0.45; b.filter = 'blur(90px)'; b.drawImage(cover, -400, -200, 1880, 1880); b.restore();
@@ -193,25 +193,7 @@ window.frame = (t) => {
   if (cfg.bass) { const fi = Math.max(0, Math.min(cfg.bass.length - 1, Math.round(t * 30))); beat = Math.max(cfg.bass[fi], 0.3 * K.word); pump = Math.max(0.6 * K.line, cfg.bassKick[fi]); }
 
   // ---------- background: blurred cover + rotating rays ----------
-  bgc.drawImage(bgLayer, 0, 0, W, GL_H, 0, 0, W, GL_H);
-  bgc.save(); bgc.globalCompositeOperation = 'lighter';
-  const cxr = W / 2, cyr = 830, rays = 14;
-  for (let i = 0; i < rays; i++) {
-    const a = t * 0.12 + i * Math.PI * 2 / rays, w = 0.06 + 0.04 * Math.sin(i * 2.3);
-    const g = bgc.createRadialGradient(cxr, cyr, 50, cxr, cyr, 1200);
-    const al = (0.06 + 0.06 * beat) * (0.6 + 0.4 * Math.sin(t * 1.3 + i));
-    g.addColorStop(0, (i % 2 ? dyn : dyn2) + Math.round(al * 255).toString(16).padStart(2, '0')); g.addColorStop(1, '#00000000');
-    bgc.fillStyle = g; bgc.beginPath(); bgc.moveTo(cxr, cyr); bgc.arc(cxr, cyr, 1300, a - w, a + w); bgc.closePath(); bgc.fill();
-  }
-  const halo = bgc.createRadialGradient(cxr, cyr, 100, cxr, cyr, 620 + 80 * pump);
-  halo.addColorStop(0, dyn + Math.round((0.22 + 0.3 * pump) * 255).toString(16).padStart(2, '0')); halo.addColorStop(1, dyn + '00');
-  bgc.fillStyle = halo; bgc.fillRect(0, 0, W, GL_H);
-  // horizontal light wings
-  bgc.save(); bgc.translate(cxr, cyr); bgc.scale(3.4, 0.32);
-  const wing = bgc.createRadialGradient(0, 0, 60, 0, 0, 340); wing.addColorStop(0, dyn + Math.round((0.18 + 0.6 * beat) * 255).toString(16).padStart(2, '0')); wing.addColorStop(1, dyn + '00');
-  bgc.fillStyle = wing; bgc.beginPath(); bgc.arc(0, 0, 340, 0, Math.PI * 2); bgc.fill(); bgc.restore();
-  bgc.fillStyle = halo; bgc.fillRect(0, 0, W, GL_H); bgc.restore();
-  bgTex.needsUpdate = true;
+  // fond noir : pas de pochette floutée, pas de rayons ni de halo derrière le vinyle
 
   // ---------- record ----------
   tilt.position.set(0, 0.05 + 0.04 * Math.sin(t * 1.1), 0);
@@ -275,8 +257,8 @@ window.frame = (t) => {
   composer.render();
 
   // ---------- composite ----------
-  cx.drawImage(bgLayer, 0, 0);
-  cx.drawImage(renderer.domElement, 0, 0);
+  cx.setTransform(S, 0, 0, S, 0, 0); cx.fillStyle = '#000'; cx.fillRect(0, 0, W, H);
+  cx.drawImage(renderer.domElement, 0, 0, W, GL_H);
 
 
   // ---- title + artist only (no lyrics in the « bass » format) ----
@@ -285,7 +267,7 @@ window.frame = (t) => {
   cx.fillStyle = '#ffffff'; cx.font = `700 60px ${FONT}`; cx.fillText(cfg.title.toUpperCase(), W / 2, 1420);
   if ('letterSpacing' in cx) cx.letterSpacing = '0px';
   cx.fillStyle = dyn; cx.font = `700 38px ${FONT}`; cx.fillText(cfg.artist, W / 2, 1475);
-  return comp.toDataURL('image/jpeg', 0.9);
+  return comp.toDataURL('image/jpeg', 0.95);
 };
 window.ready = true;
 </script></body></html>
