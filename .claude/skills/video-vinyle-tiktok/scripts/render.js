@@ -22,7 +22,7 @@ const { chromium } = require('playwright'); const fs = require('fs'); const path
     await b.close(); process.exit(0);
   }
   const n = Math.round(info.duration * fps);
-  const ff = spawn('ffmpeg', ['-v', 'error', '-y', '-f', 'image2pipe', '-framerate', String(fps), '-i', '-', '-c:v', 'libx264', '-pix_fmt', 'yuv420p', ...((cfg.scale || 1) > 1 ? ['-preset', 'slow', '-crf', '17', '-profile:v', 'high', '-level', '5.2'] : ['-preset', 'medium', '-crf', '24', '-maxrate', '12M', '-bufsize', '24M']), '-movflags', '+faststart', out], { stdio: ['pipe', 'inherit', 'inherit'] });
+  const ff = spawn('ffmpeg', ['-v', 'error', '-y', '-f', 'image2pipe', '-framerate', String(fps), '-i', '-', '-c:v', 'libx264', '-pix_fmt', 'yuv420p', ...((cfg.scale || 1) > 1 ? ['-preset', 'slow', '-crf', '20', '-maxrate', '45M', '-bufsize', '90M', '-profile:v', 'high', '-level', '5.2'] : ['-preset', 'medium', '-crf', '24', '-maxrate', '12M', '-bufsize', '24M']), '-movflags', '+faststart', out], { stdio: ['pipe', 'inherit', 'inherit'] });
   const t0 = Date.now();
   for (let f = 0; f < n; f++) {
     const d = await p.evaluate(t => window.frame(t), f / fps);
