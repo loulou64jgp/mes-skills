@@ -35,7 +35,9 @@ window.render3d = async (src, opts = {}) => {
   // bounding box of the object (alpha) to place shadow/reflection under it
   const tmp = document.createElement('canvas'); tmp.width = tmp.height = SZ; const tg = tmp.getContext('2d'); tg.imageSmoothingQuality = 'high'; tg.drawImage(gl, 0, 0, SZ, SZ);
   const d = tg.getImageData(0, 0, SZ, SZ).data; let bottom = 0; for (let y = SZ - 1; y >= 0 && !bottom; y--) for (let x = 0; x < SZ; x += 4) if (d[(y * SZ + x) * 4 + 3] > 20) { bottom = y; break; }
-  g.save(); g.filter = 'blur(28px)'; g.fillStyle = 'rgba(0,0,0,0.55)'; g.beginPath(); g.ellipse(SZ / 2, bottom + 10, SZ * 0.3, 34, 0, 0, Math.PI * 2); g.fill(); g.restore();
+  // ombre portée : un halo large et diffus + une ombre de contact plus dense juste sous la pochette
+  g.save(); g.filter = 'blur(48px)'; g.fillStyle = 'rgba(0,0,0,0.6)'; g.beginPath(); g.ellipse(SZ / 2, bottom + 30, SZ * 0.36, 80, 0, 0, Math.PI * 2); g.fill(); g.restore();
+  g.save(); g.filter = 'blur(18px)'; g.fillStyle = 'rgba(0,0,0,0.75)'; g.beginPath(); g.ellipse(SZ / 2, bottom + 8, SZ * 0.3, 26, 0, 0, Math.PI * 2); g.fill(); g.restore();
   g.save(); g.translate(0, bottom * 2 + 6); g.scale(1, -1); g.globalAlpha = 0.14; g.drawImage(tmp, 0, 0); g.restore();
   g.globalCompositeOperation = 'destination-out';
   const fade = g.createLinearGradient(0, bottom + 6, 0, bottom + 300); fade.addColorStop(0, 'rgba(0,0,0,0.2)'); fade.addColorStop(1, 'rgba(0,0,0,1)');
