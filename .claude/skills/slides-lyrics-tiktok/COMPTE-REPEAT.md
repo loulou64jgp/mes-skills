@@ -11,7 +11,7 @@
 
 ## Ce qui marche (décisions de l'utilisateur)
 - **Format gagnant : le carrousel 2 slides avec toutes les paroles d'un coup.** C'est ce qui a fait le plus de vues, plus que les vidéos.
-- **Template actuel** (voir `SKILL.md`) : pochette en 3D (`--3d`) avec ombre marquée, titre en gras plus bas, phrase culte en couleur (`--punch`), signature @repeatmusique, tout dans la zone visible TikTok.
+- **Template actuel** (voir `SKILL.md`) : pochette en 3D (`--3d`) avec ombre marquée, titre en gras plus bas, phrase culte en couleur (`--punch`), signature @repeatmusique, tout dans la zone visible TikTok (x 110–920, y 380–1500 : le haut est couvert par la barre « Suivis / Pour toi », le bas par la légende).
 - **Emoji** : l'utilisateur l'ajoute lui-même dans TikTok (emojis iPhone), en haut à gauche de la slide 1.
 - **Pour chaque son, fournir** : les 2 slides, le texte à coller (accroche + « 🎵 Titre – Artistes » + hashtags) et un emoji.
 - **L'utilisateur fournit les paroles** (texte copié depuis Genius ou capture Spotify). Ne jamais les récupérer soi-même. Retirer les liens Genius collés dans le texte.
