@@ -79,7 +79,7 @@ function get(url) {
   }
   await page.waitForTimeout(1500);
 
-  const slug = title.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '')
+  const slug = title.toLowerCase().replace(/œ/g, 'oe').replace(/æ/g, 'ae').normalize('NFD').replace(/[̀-ͯ]/g, '')
     .replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'slides';
   const files = [];
   for (const [sel, n] of [['#out1', 1], ['#out2', 2]]) {
