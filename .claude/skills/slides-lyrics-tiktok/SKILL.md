@@ -7,11 +7,11 @@ description: Génère les 2 slides d'un carrousel TikTok « lyrics » (slide 1 t
 
 Format inspiré des comptes « lyrics » (style Music Package) : carrousel photo de 2 images en 1080×1920.
 
-- **Slide 1** : titre du son en majuscules, centré dans l'espace à gauche, sur un fond uni pris dans la pochette (assombri).
-- **Sous le titre** : le nom des artistes en gras, dans la couleur la plus vive de la pochette (rose pour une pochette rose, etc.), séparés par des virgules.
-- **Emoji** : l'utilisateur l'ajoute lui-même dans TikTok (en haut à gauche de la slide 1), pour avoir le style des emojis iPhone. Le conteneur n'a que les emojis Google, donc ne pas en mettre dans les slides.
-- **Slide 2** : le refrain, aligné à gauche, texte blanc.
-- La pochette est **à cheval sur les deux slides** : quand on swipe, l'image se continue.
+- **Slide 1** : pochette entière centrée, titre en majuscules et en gras dessous, artistes dans la couleur la plus vive de la pochette.
+- **Emoji** : l'utilisateur l'ajoute lui-même dans TikTok (en haut à gauche de la slide 1), pour avoir le style des emojis iPhone. Ne pas en mettre dans les slides.
+- **Slide 2** : toutes les paroles d'un coup (c'est le format qui marche le mieux sur le compte), alignées à gauche, en blanc. Option `--punch "..."` : la ligne qui contient ce passage passe en gras dans la couleur de la pochette (la phrase culte).
+- **Signature** `@repeatmusique` en petit en bas de la slide 2 (`--signature ""` pour l'enlever).
+- **Zone visible TikTok** : tout reste entre x = 110 et 920, y = 250 et 1450. Les téléphones allongés rognent les bords et les boutons j'aime/commentaires couvrent la droite. Plus de pochette à cheval entre les deux slides (elle était coupée).
 - Police : Helvetica (Nimbus Sans dans le conteneur).
 
 ## Prérequis (une fois par session)
@@ -30,7 +30,7 @@ Format inspiré des comptes « lyrics » (style Music Package) : carrousel photo
    ```bash
    node .claude/skills/slides-lyrics-tiktok/scripts/make-slides.js "<lien-spotify>" refrain.txt <dossier-de-sortie>
    ```
-   Ne pas passer `--emoji` (voir plus haut). Le nom des artistes vient de Spotify ; `--artiste "..."` pour l'écrire autrement.
+   Ne pas passer `--emoji` (voir plus haut). Proposer une phrase culte avec `--punch`. Le nom des artistes vient de Spotify ; `--artiste "..."` pour l'écrire autrement.
    Mettre le dossier de sortie dans le scratchpad. `-` à la place du fichier = slide 2 sans paroles.
 3. Regarder une fois les 2 PNG, puis les envoyer à l'utilisateur avec SendUserFile (slide 1 puis slide 2).
 4. Proposer pour chaque son, prêts à copier-coller :

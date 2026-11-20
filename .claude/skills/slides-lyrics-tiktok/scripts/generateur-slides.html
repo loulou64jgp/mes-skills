@@ -122,6 +122,16 @@ Celui qui tourne sur TikTok</textarea>
       </div>
 
       <div>
+        <label class="l" for="punch">Phrase culte en couleur (optionnel)</label>
+        <input type="text" id="punch" value="" placeholder="ex. comme une barbe à papa">
+      </div>
+
+      <div>
+        <label class="l" for="sig">Signature en bas de la slide 2</label>
+        <input type="text" id="sig" value="@repeatmusique">
+      </div>
+
+      <div>
         <span class="l">Couleur du fond</span>
         <div class="row">
           <input type="color" id="bg" value="#3a3f4a" aria-label="Couleur du fond">
@@ -209,7 +219,7 @@ Celui qui tourne sur TikTok</textarea>
     for (let i = 0; i < d.length; i += 4) { r += d[i]; gg += d[i + 1]; b += d[i + 2]; n++; }
     let [h, s, l] = rgbToHsl(r / n, gg / n, b / n);
     s = Math.min(s, 0.32);
-    l = Math.max(0.16, Math.min(l * 0.75, 0.4));
+    l = Math.max(0.12, Math.min(l * 0.6, 0.3));
     return hslToHex(h, s, l);
   }
 
@@ -266,77 +276,59 @@ Celui qui tourne sur TikTok</textarea>
     const scale = Number($("size").value) / 100;
 
     ctx.fillStyle = bg; ctx.fillRect(0, 0, W * 2, H);
-    const cy = H * 0.46;
+    // Zone toujours visible sur TikTok : les téléphones plus allongés que 9:16 rognent ~100 px de chaque côté,
+    // et la colonne de boutons (j'aime, commentaires…) couvre la droite. Tout le contenu reste dans SAFE.
+    const SAFE = { x0: 110, x1: 920, y0: 250, y1: 1450 };
+    const accent = $("accent").value;
 
-    // Cover straddles the seam between the two slides.
-    const S = Math.round(W * 0.56);
-    const coverX = Math.round(W + W * 0.22 - S);
-    const coverY = Math.round(cy - S / 2);
+    // ---- Slide 1 : pochette entière centrée, titre et artiste dessous (rien n'est coupé entre les slides)
+    const CS = 600, coverX = Math.round((W - CS) / 2), coverY = 330;
     if (coverImg && coverImg.complete) {
-      ctx.save();
-      ctx.shadowColor = "rgba(0,0,0,0.25)"; ctx.shadowBlur = 30;
-      drawCoverSquare(coverImg, coverX, coverY, S);
-      ctx.restore();
+      ctx.save(); ctx.shadowColor = "rgba(0,0,0,0.35)"; ctx.shadowBlur = 40; ctx.shadowOffsetY = 12;
+      drawCoverSquare(coverImg, coverX, coverY, CS); ctx.restore();
     }
-
-    // Slide 1: title, centred in the free space left of the cover.
-    ctx.fillStyle = "#ffffff"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
-    const titleCx = coverX / 2, titleMaxW = coverX - 110;
-    let fs = 76, lines;
+    const tMaxW = SAFE.x1 - SAFE.x0;
+    ctx.fillStyle = "#ffffff"; ctx.textAlign = "center"; ctx.textBaseline = "alphabetic";
+    let fs = 76, tl;
     for (;;) {
-      ctx.font = `400 ${fs}px ${SLIDE_FONT}`;
-      if ("letterSpacing" in ctx) ctx.letterSpacing = `${Math.round(fs * 0.02)}px`;
-      lines = wrapLine(title, titleMaxW);
-      const widest = Math.max(...lines.map(l => ctx.measureText(l).width));
-      if ((lines.length <= 3 && widest <= titleMaxW) || fs <= 40) break;
+      ctx.font = `700 ${fs}px ${SLIDE_FONT}`;
+      if ("letterSpacing" in ctx) ctx.letterSpacing = `${Math.round(fs * 0.03)}px`;
+      tl = wrapLine(title, tMaxW);
+      if ((tl.length <= 2 && Math.max(...tl.map(l => ctx.measureText(l).width)) <= tMaxW) || fs <= 44) break;
       fs -= 2;
     }
-    const tlh = fs * 1.15;
-    lines.forEach((l, i) => ctx.fillText(l, titleCx, cy + (i - (lines.length - 1) / 2) * tlh));
+    let ty = coverY + CS + 120;
+    tl.forEach(l => { ctx.fillText(l, W / 2, ty); ty += fs * 1.12; });
     if ("letterSpacing" in ctx) ctx.letterSpacing = "0px";
-
-    // Artist name under the title: bold, in the cover's most vivid colour.
-    const accent = $("accent").value;
     const artist = $("artist").value.trim();
     if (artist) {
-      let as = 44, al;
-      for (;;) {
-        ctx.font = `700 ${as}px ${SLIDE_FONT}`;
-        al = wrapLine(artist, titleMaxW);
-        if (al.length <= 2 || as <= 28) break;
-        as -= 2;
-      }
-      ctx.fillStyle = accent; ctx.textBaseline = "top";
-      let ay = cy + ((lines.length - 1) / 2) * tlh + fs * 0.5 + 28;
-      al.forEach(l => { ctx.fillText(l, titleCx, ay); ay += as * 1.2; });
+      let as = 42; ctx.font = `700 ${as}px ${SLIDE_FONT}`;
+      while (ctx.measureText(artist).width > tMaxW && as > 28) { as -= 2; ctx.font = `700 ${as}px ${SLIDE_FONT}`; }
+      ctx.fillStyle = accent; ctx.fillText(artist, W / 2, ty - fs * 1.12 + fs * 0.35 + as + 20);
     }
 
-    // Emoji in the top-left corner of slide 1.
-    const emoji = $("emoji").value.trim();
-    if (emoji) {
-      ctx.font = `150px "Apple Color Emoji", "Noto Color Emoji", "Segoe UI Emoji", sans-serif`;
-      ctx.textAlign = "left"; ctx.textBaseline = "top";
-      ctx.fillText(emoji, 80, Math.round(H * 0.11));
-      ctx.textAlign = "center";
-    }
-    ctx.fillStyle = "#ffffff";
-
-    // Slide 2: chorus, left-aligned to the right of the cover, auto-fitted.
+    // ---- Slide 2 : toutes les paroles, plus grandes, dans la zone visible ; la phrase culte en couleur
+    const punch = ($("punch").value || "").trim().toLowerCase();
     ctx.textAlign = "left"; ctx.textBaseline = "alphabetic";
-    const lx = W + W * 0.27, maxW = W * 2 - W * 0.05 - lx;
-    const maxH = H * 0.66;
-    let size = Math.round(56 * scale), wrapped, lh;
+    const lx = W + SAFE.x0, maxW = SAFE.x1 - SAFE.x0, maxH = SAFE.y1 - 70 - SAFE.y0;
+    let size = Math.round(64 * scale), rows, lh;
     for (;;) {
-      ctx.font = `400 ${size}px ${SLIDE_FONT}`;
-      wrapped = [];
-      lyrics.forEach(l => wrapLine(l, maxW).forEach(w => wrapped.push(w)));
-      lh = size * 1.22;
-      if (wrapped.length * lh <= maxH || size <= 26) break;
+      ctx.font = `500 ${size}px ${SLIDE_FONT}`;
+      rows = [];
+      lyrics.forEach(l => { const hot = !!punch && l.toLowerCase().includes(punch); wrapLine(l, maxW).forEach(w => rows.push({ w, hot })); });
+      lh = size * 1.25;
+      if (rows.length * lh <= maxH || size <= 30) break;
       size -= 1;
     }
-    const blockH = wrapped.length * lh;
-    let y = cy - blockH / 2 + size * 0.85;
-    wrapped.forEach(l => { ctx.fillText(l, lx, y); y += lh; });
+    let y = (SAFE.y0 + SAFE.y1 - 70) / 2 - rows.length * lh / 2 + size * 0.85;
+    rows.forEach(r => {
+      ctx.font = `${r.hot ? 700 : 500} ${size}px ${SLIDE_FONT}`;
+      ctx.fillStyle = r.hot ? accent : "#ffffff";
+      ctx.fillText(r.w, lx, y); y += lh;
+    });
+    // signature discrète
+    const sig = ($("sig").value || "").trim();
+    if (sig) { ctx.font = `500 30px ${SLIDE_FONT}`; ctx.fillStyle = "rgba(255,255,255,0.45)"; ctx.textAlign = "center"; ctx.fillText(sig, W + W / 2, SAFE.y1); ctx.textAlign = "left"; }
 
     // Split the strip into the two 1080x1920 slides.
     [["out1", 0], ["out2", W]].forEach(([id, sx]) => {
@@ -377,7 +369,7 @@ Celui qui tourne sur TikTok</textarea>
   $("autoBg").addEventListener("click", () => { manualBg = false; if (coverImg) $("bg").value = autoColor(coverImg); schedule(); });
   $("accent").addEventListener("input", () => { manualAccent = true; schedule(); });
   $("autoAccent").addEventListener("click", () => { manualAccent = false; if (coverImg) $("accent").value = accentColor(coverImg); schedule(); });
-  ["title", "artist", "emoji", "lyrics", "size"].forEach(id => $(id).addEventListener("input", schedule));
+  ["title", "artist", "emoji", "lyrics", "size", "punch", "sig"].forEach(id => $(id).addEventListener("input", schedule));
   $("form").addEventListener("submit", e => e.preventDefault());
 
   const start = () => setCover(makeExampleCover(), "Choisir la pochette", "Exemple chargé, remplace-le par ta pochette");

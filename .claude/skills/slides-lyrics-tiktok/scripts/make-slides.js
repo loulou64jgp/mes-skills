@@ -23,10 +23,12 @@ function get(url) {
 }
 
 (async () => {
-  const args = process.argv.slice(2), opts = { emoji: '', artiste: null }, pos = [];
+  const args = process.argv.slice(2), opts = { emoji: '', artiste: null, punch: '', signature: '@repeatmusique' }, pos = [];
   for (let i = 0; i < args.length; i++) {
     if (args[i] === '--emoji') opts.emoji = args[++i] || '';
     else if (args[i] === '--artiste') opts.artiste = args[++i] || '';
+    else if (args[i] === '--punch') opts.punch = args[++i] || '';
+    else if (args[i] === '--signature') opts.signature = args[++i] ?? '';
     else pos.push(args[i]);
   }
   const [url, lyricsPath, outArg] = pos;
@@ -60,6 +62,8 @@ function get(url) {
   await page.fill('#lyrics', lyrics);
   await page.fill('#artist', opts.artiste ?? ent.artists.map(a => a.name).join(', '));
   await page.fill('#emoji', opts.emoji);
+  await page.fill('#punch', opts.punch);
+  await page.fill('#sig', opts.signature);
   await page.setInputFiles('#cover', coverPath);
   await page.waitForTimeout(1500);
 
