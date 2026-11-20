@@ -1,0 +1,6 @@
+{
+  "name": "slides-lyrics-tiktok",
+  "private": true,
+  "description": "Pochette 3D des slides (Three.js dans Chromium headless).",
+  "dependencies": { "three": "0.160.0" }
+}

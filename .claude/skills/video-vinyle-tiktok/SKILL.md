@@ -1,0 +1,75 @@
+---
+name: video-vinyle-tiktok
+description: Génère une vidéo TikTok « vinyle néon » (1080×1920, sans son) synchronisée sur les paroles, à partir d'un lien Spotify et du refrain. Utiliser quand l'utilisateur demande une vidéo (et pas des slides) pour un son de son compte TikTok Repeat, ou envoie un lien open.spotify.com/track en demandant le format vidéo / vinyle.
+---
+
+# Vidéo vinyle néon TikTok
+
+Format validé par l'utilisateur (compte TikTok Repeat, @repeatmusique). Ne pas changer le style sans qu'il le demande.
+
+## Le format
+
+**Haut (3D, Three.js + post-traitement)**
+- Vinyle « splatter » dans les 2 couleurs principales de la pochette, vernis brillant, reflets studio fixes pendant que les sillons tournent.
+- Pochette au centre du vinyle **non éclairée** (pleine luminosité, bien lisible) avec un fin cercle de la couleur d'accent.
+- Visualiseur circulaire de 120 barres néon autour du disque.
+- Rayons de lumière et halo derrière, particules.
+- Intro : très gros plan sur l'étiquette, puis la caméra recule pour révéler le vinyle (≈ 1,2 s).
+- Sur chaque nouvelle ligne (minutage LRCLIB) : onde de choc, étincelles, légère aberration chromatique, petit flash, petit coup de zoom. **Effets volontairement doux** : l'utilisateur a trouvé la version plus forte « trop ».
+
+**Bas (2D) — à ne pas modifier, validé « nickel »**
+- Titre en majuscules, artistes dans la couleur d'accent, barre de lecture avec le vrai temps du morceau.
+- Paroles qui défilent façon Spotify ; sur la ligne active, les mots s'allument un par un (karaoké).
+
+Police : Helvetica (Nimbus Sans dans le conteneur).
+
+**Zone visible TikTok** : tout le texte reste entre y ≈ 950 et 1470 (sur 1920) et à gauche de x ≈ 920, pour ne pas passer sous la légende (en bas) ni sous les boutons j'aime/commentaires/partage (à droite). L'utilisateur trouvait le texte trop bas avant ce réglage.
+
+## Choix des sons
+
+Le compte ne poste **que des sons dont LRCLIB a le minutage** (décision de l'utilisateur). Avant d'ajouter un son au planning, vérifier qu'une version synchronisée existe et contient le refrain (`synchro` doit commencer par « LRCLIB # » ; sinon, écarter le son et le dire à l'utilisateur).
+
+## Prérequis (une fois par session)
+
+1. Réseau : `open.spotify.com`, `i.scdn.co` et `lrclib.net` autorisés dans l'environnement.
+2. Police : `apt-get install -y fonts-urw-base35 && fc-cache -f`
+3. Playwright/Chromium sont préinstallés. `three` est installé automatiquement (`npm install` dans `scripts/`) au premier lancement.
+
+## Étapes
+
+1. Récupérer le lien Spotify et le refrain de l'utilisateur.
+   - Capture d'écran : retranscrire fidèlement, un vers par ligne. Ne jamais inventer ni compléter les paroles (droit d'auteur).
+2. Écrire le refrain dans un fichier texte (scratchpad), puis vérifier la mise en page en 30 s :
+   ```bash
+   node .claude/skills/video-vinyle-tiktok/scripts/make-video.js "<lien-spotify>" refrain.txt <dossier-sortie> --preview
+   ```
+   Regarder une fois les 4 JPG (intro, 1re ligne, ligne 2, fin).
+3. Rendu complet (≈ 4 min pour 20 s ; le lancer en arrière-plan) :
+   ```bash
+   node .claude/skills/video-vinyle-tiktok/scripts/make-video.js "<lien-spotify>" refrain.txt <dossier-sortie>
+   ```
+   La sortie JSON donne `synchro` (source du minutage), `demarrage_son_tiktok` et le chemin du MP4 (≈ 30 Mo).
+4. Envoyer le MP4 avec SendUserFile et dire :
+   - **à quel moment faire démarrer le son officiel dans TikTok** (`demarrage_son_tiktok`, la 1re ligne tombe 1,2 s après le début) ;
+   - si `synchro` vaut « aucun minutage trouvé » ou « refrain non reconnu » : les lignes sont espacées de 1,6 s, la synchro n'est pas exacte (proposer les slides à la place, ou demander le minutage).
+   - Les différentes versions LRCLIB d'un même son peuvent être décalées de quelques dixièmes de seconde : dire à l'utilisateur d'ajuster d'un cran dans TikTok si besoin.
+5. Proposer aussi le titre accrocheur, l'emoji et la légende (voir la skill `slides-lyrics-tiktok`).
+
+## Fichiers
+
+- `scripts/make-video.js` : Spotify (titre, artistes, durée, pochette) → LRCLIB (version synchronisée la plus proche de la durée Spotify, qui contient le refrain) → alignement vers par vers → rendu.
+- `scripts/render.js` : sert le dossier en HTTP local, pilote Chromium image par image, encode en H.264 avec ffmpeg.
+- `scripts/vinyle.html` : la scène (3D + composition 2D). Tous les réglages visuels sont là (`window.frame`).
+
+## Basses réelles (en test)
+
+Si l'utilisateur envoie un enregistrement d'écran de Spotify (vue Paroles, avec le son), le vinyle peut pomper sur les vraies basses :
+- `scripts/bass.py <enregistrement> <decalage_s> <duree_s> bass.json` mesure les basses (passe-bas 120 Hz) image par image ; ajouter `bass` et `bassKick` au JSON de config, `vinyle.html` les utilise automatiquement.
+- `decalage_s` = instant de l'enregistrement qui correspond au début de la vidéo (`songStart` + moment où la musique démarre dans l'enregistrement).
+- Le minutage des lignes peut se lire dans l'enregistrement (moment où chaque ligne passe en blanc dans la vue Paroles) quand LRCLIB n'a pas le son.
+- L'audio de l'enregistrement ne sert qu'à l'analyse : la vidéo à poster reste sans son (son officiel ajouté dans TikTok). Un aperçu avec le son peut être fait pour vérifier la synchro, à ne pas poster.
+- Pas encore branché dans `make-video.js` (étapes manuelles pour l'instant).
+
+## Format « bass » (en test, sans paroles)
+
+`scripts/bass.html` : même vinyle en plein écran, sans paroles ; anneau néon liquide qui se déforme sur les basses, couleurs qui tournent à chaque gros coup de basse, traînées de lumière horizontales, titre et artiste en bas. S'utilise avec les données `bass`/`bassKick` (voir plus haut) en mettant `"scene": "bass.html"` dans la config. Testé contre le format paroles : garder celui qui marche le mieux.

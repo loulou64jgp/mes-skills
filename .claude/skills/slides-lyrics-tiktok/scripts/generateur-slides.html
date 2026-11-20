@@ -1,0 +1,388 @@
+<title>Générateur de slides lyrics</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: one column on phone — form first, then the two 9:16 slides side by side (the carousel). */
+:root {
+  --bg: #f3f3f6;
+  --panel: #ffffff;
+  --fg: #16161c;
+  --muted: #62626e;
+  --line: #dcdce3;
+  --accent: #c8102e;
+  --accent-fg: #ffffff;
+  --field: #f7f7fa;
+  --font: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f0f13; --panel: #1a1a21; --fg: #f1f1f5; --muted: #a0a0ad;
+    --line: #2d2d37; --accent: #ff3b5c; --accent-fg: #ffffff; --field: #22222b;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0f0f13; --panel: #1a1a21; --fg: #f1f1f5; --muted: #a0a0ad;
+  --line: #2d2d37; --accent: #ff3b5c; --accent-fg: #ffffff; --field: #22222b;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--fg); font-family: var(--font); font-size: 15px; line-height: 1.45;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 20px 40px;
+}
+.wrap { max-width: 980px; margin: 0 auto; display: grid; gap: 20px; }
+header h1 { font-size: 22px; margin: 0 0 4px; letter-spacing: -0.01em; text-wrap: balance; }
+header p { margin: 0; color: var(--muted); }
+.grid { display: grid; gap: 20px; grid-template-columns: 1fr; }
+@media (min-width: 820px) { .grid { grid-template-columns: 340px 1fr; align-items: start; } }
+.panel { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 16px; display: grid; gap: 14px; min-width: 0; }
+.l { display: block; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin-bottom: 6px; }
+input[type="text"], textarea {
+  width: 100%; font: inherit; color: var(--fg); background: var(--field);
+  border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px;
+}
+textarea { min-height: 200px; resize: vertical; line-height: 1.4; }
+input:focus-visible, textarea:focus-visible, button:focus-visible, .file:focus-within { outline: 2px solid var(--accent); outline-offset: 2px; }
+.file { display: flex; align-items: center; gap: 12px; padding: 10px; border: 1px dashed var(--line); border-radius: 10px; background: var(--field); cursor: pointer; }
+.file img { width: 52px; height: 52px; object-fit: cover; border-radius: 6px; flex: none; background: var(--line); }
+.file span { font-weight: 600; }
+.file small { display: block; color: var(--muted); font-weight: 400; }
+.file input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+input[type="color"] { width: 44px; height: 36px; border: 1px solid var(--line); border-radius: 8px; background: none; padding: 2px; }
+button { font: inherit; font-weight: 600; border-radius: 999px; padding: 8px 14px; border: 1px solid var(--line); background: var(--field); color: var(--fg); cursor: pointer; }
+button.primary { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); }
+input[type="range"] { flex: 1; accent-color: var(--accent); }
+.hint { color: var(--muted); font-size: 13px; margin: 0; }
+.slides { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.slide { display: grid; gap: 6px; min-width: 0; }
+.slide img { width: 100%; aspect-ratio: 9 / 16; border-radius: 10px; display: block; background: #222; -webkit-touch-callout: default; }
+.slide b { font-size: 13px; color: var(--muted); font-weight: 600; }
+.tip { background: var(--field); border-radius: 10px; padding: 12px; font-size: 14px; }
+.tip strong { color: var(--accent); }
+.badge { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; background: var(--accent); color: var(--accent-fg); border-radius: 4px; padding: 2px 6px; margin-left: 6px; vertical-align: 2px; }
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>Générateur de slides lyrics</h1>
+    <p>Slide 1 : le titre au milieu, avec la pochette. Slide 2 : le refrain. La pochette est à cheval sur les deux slides, donc le carrousel s'enchaîne sans coupure quand on swipe.</p>
+  </header>
+
+  <div class="grid">
+    <form class="panel" id="form" autocomplete="off">
+      <div>
+        <label class="l" for="title">Titre du son</label>
+        <input type="text" id="title" value="Titre du son">
+      </div>
+
+      <div>
+        <label class="l" for="artist">Artiste(s), sous le titre</label>
+        <input type="text" id="artist" value="Nom de l'artiste" placeholder="ex. Vacra, La Rvfleuze">
+      </div>
+
+      <div>
+        <label class="l" for="emoji">Emoji dans le coin (optionnel)</label>
+        <input type="text" id="emoji" value="🍭" placeholder="ex. 🍭 🔥 💸">
+      </div>
+
+      <div>
+        <span class="l">Couleur du nom de l'artiste</span>
+        <div class="row">
+          <input type="color" id="accent" value="#f2a7c3" aria-label="Couleur du nom de l'artiste">
+          <button type="button" id="autoAccent">Auto (depuis la pochette)</button>
+        </div>
+        <p class="hint" style="margin-top:6px">Par défaut, c'est la couleur la plus vive de la pochette, éclaircie pour bien ressortir sur le fond.</p>
+      </div>
+
+      <div>
+        <span class="l">Pochette de l'album</span>
+        <label class="file" for="cover">
+          <img id="coverThumb" alt="">
+          <div><span id="coverName">Choisir la pochette</span><small id="coverSub">Exemple chargé, remplace-le par ta pochette</small></div>
+          <input type="file" id="cover" accept="image/*">
+        </label>
+      </div>
+
+      <div>
+        <label class="l" for="lyrics">Refrain (une ligne par vers)</label>
+        <textarea id="lyrics">Colle ici le refrain du son
+Une ligne par vers, comme sur Genius
+La taille du texte s'ajuste toute seule
+Pour que tout rentre dans l'image
+Garde 8 à 14 lignes, c'est l'idéal
+Le passage que tout le monde connaît
+Celui qu'on chante en voiture
+Celui qui tourne sur TikTok</textarea>
+      </div>
+
+      <div>
+        <label class="l" for="punch">Phrase culte en couleur (optionnel)</label>
+        <input type="text" id="punch" value="" placeholder="ex. comme une barbe à papa">
+      </div>
+
+      <div>
+        <label class="l" for="sig">Signature en bas de la slide 2</label>
+        <input type="text" id="sig" value="@repeatmusique">
+      </div>
+
+      <div>
+        <span class="l">Couleur du fond</span>
+        <div class="row">
+          <input type="color" id="bg" value="#3a3f4a" aria-label="Couleur du fond">
+          <button type="button" id="autoBg">Auto (depuis la pochette)</button>
+        </div>
+        <p class="hint" style="margin-top:6px">Par défaut, la couleur est prise dans la pochette et assombrie, comme sur Music Package.</p>
+      </div>
+
+      <div>
+        <label class="l" for="size">Taille du texte des paroles</label>
+        <div class="row"><span class="hint">Petit</span><input type="range" id="size" min="70" max="115" value="100"><span class="hint">Grand</span></div>
+      </div>
+    </form>
+
+    <section class="panel" aria-label="Aperçu">
+      <div class="slides">
+        <div class="slide"><b>Slide 1 · Titre</b><img id="out1" alt="Slide 1 : titre et pochette"></div>
+        <div class="slide"><b>Slide 2 · Refrain</b><img id="out2" alt="Slide 2 : paroles du refrain"></div>
+      </div>
+      <div class="tip">
+        <strong>Sur téléphone :</strong> appuie longuement sur chaque image, puis « Enregistrer dans Photos ». Sur ordinateur : clic droit, puis « Enregistrer l'image ».<br>
+        <strong>Sur TikTok :</strong> + → Photo → sélectionne la slide 1 puis la slide 2 (dans cet ordre) → Sons → ajoute le son officiel et cale-le sur le refrain.
+      </div>
+      <p class="hint">Images en 1080 × 1920 (format 9:16 de TikTok). Le texte reste au centre de l'image, à l'écart de la légende et des boutons TikTok.</p>
+    </section>
+  </div>
+</div>
+
+<script>
+(function () {
+  const W = 1080, H = 1920;
+  const SLIDE_FONT = "\"Nimbus Sans\", \"Helvetica Neue\", Helvetica, Arial, sans-serif";
+  const $ = (id) => document.getElementById(id);
+  const stage = document.createElement("canvas");
+  stage.width = W * 2; stage.height = H;
+  const ctx = stage.getContext("2d");
+  let coverImg = null;
+  let manualBg = false;
+  let manualAccent = false;
+
+  // Example cover (clearly an example) so the page opens with something to see.
+  function makeExampleCover() {
+    const c = document.createElement("canvas"); c.width = c.height = 600;
+    const g = c.getContext("2d");
+    const grd = g.createLinearGradient(0, 0, 600, 600);
+    grd.addColorStop(0, "#2c3e63"); grd.addColorStop(1, "#0d1424");
+    g.fillStyle = grd; g.fillRect(0, 0, 600, 600);
+    const r = g.createRadialGradient(380, 230, 10, 380, 230, 260);
+    r.addColorStop(0, "rgba(140,170,220,0.85)"); r.addColorStop(1, "rgba(140,170,220,0)");
+    g.fillStyle = r; g.fillRect(0, 0, 600, 600);
+    g.fillStyle = "rgba(255,255,255,0.9)";
+    g.font = "700 46px Inter, system-ui, sans-serif"; g.textAlign = "center";
+    g.fillText("POCHETTE", 300, 470); g.font = "500 28px Inter, system-ui, sans-serif";
+    g.fillText("exemple", 300, 512);
+    const img = new Image(); img.src = c.toDataURL("image/png");
+    return img;
+  }
+
+  function rgbToHsl(r, g, b) {
+    r /= 255; g /= 255; b /= 255;
+    const max = Math.max(r, g, b), min = Math.min(r, g, b);
+    let h = 0, s = 0; const l = (max + min) / 2;
+    if (max !== min) {
+      const d = max - min;
+      s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+      if (max === r) h = (g - b) / d + (g < b ? 6 : 0);
+      else if (max === g) h = (b - r) / d + 2; else h = (r - g) / d + 4;
+      h /= 6;
+    }
+    return [h, s, l];
+  }
+  function hslToHex(h, s, l) {
+    const f = (n) => {
+      const k = (n + h * 12) % 12, a = s * Math.min(l, 1 - l);
+      const c = l - a * Math.max(-1, Math.min(k - 3, 9 - k, 1));
+      return Math.round(c * 255).toString(16).padStart(2, "0");
+    };
+    return "#" + f(0) + f(8) + f(4);
+  }
+  function autoColor(img) {
+    const c = document.createElement("canvas"); c.width = c.height = 24;
+    const g = c.getContext("2d"); g.drawImage(img, 0, 0, 24, 24);
+    const d = g.getImageData(0, 0, 24, 24).data;
+    let r = 0, gg = 0, b = 0, n = 0;
+    for (let i = 0; i < d.length; i += 4) { r += d[i]; gg += d[i + 1]; b += d[i + 2]; n++; }
+    let [h, s, l] = rgbToHsl(r / n, gg / n, b / n);
+    s = Math.min(s, 0.32);
+    l = Math.max(0.12, Math.min(l * 0.6, 0.3));
+    return hslToHex(h, s, l);
+  }
+
+  // Most vivid colour of the cover: hue histogram weighted by saturation,
+  // then pushed to a light, saturated tint that reads on the dark background.
+  function accentColor(img) {
+    const n = 48, c = document.createElement("canvas"); c.width = c.height = n;
+    const g = c.getContext("2d"); g.drawImage(img, 0, 0, n, n);
+    const d = g.getImageData(0, 0, n, n).data;
+    const bins = new Array(36).fill(0), sums = Array.from({ length: 36 }, () => [0, 0, 0]);
+    for (let i = 0; i < d.length; i += 4) {
+      const [h, s, l] = rgbToHsl(d[i], d[i + 1], d[i + 2]);
+      if (s < 0.18 || l < 0.12 || l > 0.95) continue;
+      const w = s;
+      const b = Math.floor(h * 36) % 36;
+      bins[b] += w; sums[b][0] += h * w; sums[b][1] += s * w; sums[b][2] += l * w;
+    }
+    let best = -1, bw = 0;
+    bins.forEach((w, i) => { const t = w + 0.5 * (bins[(i + 35) % 36] + bins[(i + 1) % 36]); if (t > bw) { bw = t; best = i; } });
+    if (best < 0 || bins[best] < 0.5) return "#ffffff";
+    const h = sums[best][0] / bins[best];
+    const s = Math.max(0.6, Math.min(sums[best][1] / bins[best] + 0.25, 0.85));
+    return hslToHex(h, s, 0.74);
+  }
+
+  function roundRect(x, y, w, h, r) {
+    ctx.beginPath(); ctx.moveTo(x + r, y);
+    ctx.arcTo(x + w, y, x + w, y + h, r); ctx.arcTo(x + w, y + h, x, y + h, r);
+    ctx.arcTo(x, y + h, x, y, r); ctx.arcTo(x, y, x + w, y, r); ctx.closePath();
+  }
+
+  function drawCoverSquare(img, x, y, size) {
+    const iw = img.naturalWidth || img.width, ih = img.naturalHeight || img.height;
+    const side = Math.min(iw, ih);
+    ctx.drawImage(img, (iw - side) / 2, (ih - side) / 2, side, side, x, y, size, size);
+  }
+
+  function wrapLine(text, maxW) {
+    const words = text.split(/\s+/).filter(Boolean);
+    if (!words.length) return [""];
+    const out = []; let cur = words[0];
+    for (let i = 1; i < words.length; i++) {
+      const t = cur + " " + words[i];
+      if (ctx.measureText(t).width <= maxW) cur = t; else { out.push(cur); cur = words[i]; }
+    }
+    out.push(cur); return out;
+  }
+
+  function render() {
+    const bg = $("bg").value;
+    const title = ($("title").value.trim() || "Titre").toUpperCase();
+    const lyrics = $("lyrics").value.replace(/\r/g, "").split("\n").map(s => s.trim());
+    while (lyrics.length && !lyrics[lyrics.length - 1]) lyrics.pop();
+    const scale = Number($("size").value) / 100;
+
+    ctx.fillStyle = bg; ctx.fillRect(0, 0, W * 2, H);
+    // Zone toujours visible sur TikTok : les téléphones plus allongés que 9:16 rognent ~100 px de chaque côté,
+    // et la colonne de boutons (j'aime, commentaires…) couvre la droite. Tout le contenu reste dans SAFE.
+    const SAFE = { x0: 110, x1: 920, y0: 250, y1: 1450 };
+    const accent = $("accent").value;
+
+    // ---- Slide 1 : pochette entière centrée, titre et artiste dessous (rien n'est coupé entre les slides)
+    const CS = 760, coverX = Math.round((W - CS) / 2), coverY = 290;   // le plus grand possible dans la zone visible
+    const c3 = window.__cover3dImg;   // pochette 3D (option --3d du script) : PNG transparent avec ombre et reflet
+    let titleTop;
+    if (c3 && c3.complete) {
+      const w3 = 1120, h3 = w3 * c3.naturalHeight / c3.naturalWidth, x3 = (W - w3) / 2 - 25, y3 = 120;
+      ctx.drawImage(c3, x3, y3, w3, h3); titleTop = y3 + h3 * (window.__cover3dBottom || 0.65) + 200;
+    } else {
+      if (coverImg && coverImg.complete) {
+        ctx.save(); ctx.shadowColor = "rgba(0,0,0,0.35)"; ctx.shadowBlur = 40; ctx.shadowOffsetY = 12;
+        drawCoverSquare(coverImg, coverX, coverY, CS); ctx.restore();
+      }
+      titleTop = coverY + CS + 115;
+    }
+    const tMaxW = SAFE.x1 - SAFE.x0;
+    ctx.fillStyle = "#ffffff"; ctx.textAlign = "center"; ctx.textBaseline = "alphabetic";
+    let fs = 76, tl;
+    for (;;) {
+      ctx.font = `700 ${fs}px ${SLIDE_FONT}`;
+      if ("letterSpacing" in ctx) ctx.letterSpacing = `${Math.round(fs * 0.03)}px`;
+      tl = wrapLine(title, tMaxW);
+      if ((tl.length <= 2 && Math.max(...tl.map(l => ctx.measureText(l).width)) <= tMaxW) || fs <= 44) break;
+      fs -= 2;
+    }
+    let ty = Math.min(titleTop, SAFE.y1 - 120);
+    tl.forEach(l => { ctx.fillText(l, W / 2, ty); ty += fs * 1.12; });
+    if ("letterSpacing" in ctx) ctx.letterSpacing = "0px";
+    const artist = $("artist").value.trim();
+    if (artist) {
+      let as = 42; ctx.font = `700 ${as}px ${SLIDE_FONT}`;
+      while (ctx.measureText(artist).width > tMaxW && as > 28) { as -= 2; ctx.font = `700 ${as}px ${SLIDE_FONT}`; }
+      ctx.fillStyle = accent; ctx.fillText(artist, W / 2, ty - fs * 1.12 + fs * 0.35 + as + 20);
+    }
+
+    // ---- Slide 2 : toutes les paroles, plus grandes, dans la zone visible ; la phrase culte en couleur
+    const punch = ($("punch").value || "").trim().toLowerCase();
+    ctx.textAlign = "left"; ctx.textBaseline = "alphabetic";
+    const lx = W + SAFE.x0, maxW = SAFE.x1 - SAFE.x0, maxH = SAFE.y1 - 70 - SAFE.y0;
+    let size = Math.round(64 * scale), rows, lh;
+    for (;;) {
+      ctx.font = `500 ${size}px ${SLIDE_FONT}`;
+      rows = [];
+      lyrics.forEach(l => { const hot = !!punch && l.toLowerCase().includes(punch); wrapLine(l, maxW).forEach(w => rows.push({ w, hot })); });
+      lh = size * 1.25;
+      if (rows.length * lh <= maxH || size <= 30) break;
+      size -= 1;
+    }
+    let y = (SAFE.y0 + SAFE.y1 - 70) / 2 - rows.length * lh / 2 + size * 0.85;
+    rows.forEach(r => {
+      ctx.font = `${r.hot ? 700 : 500} ${size}px ${SLIDE_FONT}`;
+      ctx.fillStyle = r.hot ? accent : "#ffffff";
+      ctx.fillText(r.w, lx, y); y += lh;
+    });
+    // signature discrète
+    const sig = ($("sig").value || "").trim();
+    if (sig) { ctx.font = `500 30px ${SLIDE_FONT}`; ctx.fillStyle = "rgba(255,255,255,0.45)"; ctx.textAlign = "center"; ctx.fillText(sig, W + W / 2, SAFE.y1); ctx.textAlign = "left"; }
+
+    // Split the strip into the two 1080x1920 slides.
+    [["out1", 0], ["out2", W]].forEach(([id, sx]) => {
+      const c = document.createElement("canvas"); c.width = W; c.height = H;
+      c.getContext("2d").drawImage(stage, sx, 0, W, H, 0, 0, W, H);
+      $(id).src = c.toDataURL("image/png");
+    });
+  }
+
+  let raf = 0;
+  const schedule = () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(render); };
+
+  function setCover(img, name, sub) {
+    coverImg = img;
+    const go = () => {
+      $("coverThumb").src = img.src;
+      $("coverName").textContent = name; $("coverSub").textContent = sub;
+      if (!manualBg) $("bg").value = autoColor(img);
+      if (!manualAccent) $("accent").value = accentColor(img);
+      schedule();
+    };
+    if (img.complete && img.naturalWidth) go(); else img.onload = go;
+  }
+
+  $("cover").addEventListener("change", (e) => {
+    const f = e.target.files && e.target.files[0];
+    if (!f) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      const img = new Image();
+      img.onload = () => { manualBg = false; manualAccent = false; setCover(img, f.name.length > 28 ? f.name.slice(0, 26) + "…" : f.name, "Touche pour changer de pochette"); };
+      img.onerror = () => { $("coverSub").textContent = "Image illisible : essaie un JPG ou un PNG."; };
+      img.src = reader.result;
+    };
+    reader.readAsDataURL(f);
+  });
+  $("bg").addEventListener("input", () => { manualBg = true; schedule(); });
+  $("autoBg").addEventListener("click", () => { manualBg = false; if (coverImg) $("bg").value = autoColor(coverImg); schedule(); });
+  $("accent").addEventListener("input", () => { manualAccent = true; schedule(); });
+  $("autoAccent").addEventListener("click", () => { manualAccent = false; if (coverImg) $("accent").value = accentColor(coverImg); schedule(); });
+  ["title", "artist", "emoji", "lyrics", "size", "punch", "sig"].forEach(id => $(id).addEventListener("input", schedule));
+  $("form").addEventListener("submit", e => e.preventDefault());
+
+  const start = () => setCover(makeExampleCover(), "Choisir la pochette", "Exemple chargé, remplace-le par ta pochette");
+  Promise.all([
+    document.fonts.load("500 60px Inter"), document.fonts.load("400 60px Inter"), document.fonts.load("700 40px \"Nimbus Sans\"")
+  ]).catch(() => {}).then(start);
+})();
+</script>
