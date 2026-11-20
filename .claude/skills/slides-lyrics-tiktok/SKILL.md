@@ -5,6 +5,8 @@ description: Génère les 2 slides d'un carrousel TikTok « lyrics » (slide 1 t
 
 # Slides lyrics TikTok
 
+> **Avant toute chose : lire `COMPTE-REPEAT.md`** (dans ce dossier). C'est la mémoire du compte : décisions, planning, sons déjà postés, liens Spotify.
+
 Format inspiré des comptes « lyrics » (style Music Package) : carrousel photo de 2 images en 1080×1920.
 
 - **Slide 1** : pochette entière centrée, titre en majuscules et en gras dessous, artistes dans la couleur la plus vive de la pochette.
