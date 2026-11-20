@@ -10,6 +10,7 @@ Format inspiré des comptes « lyrics » (style Music Package) : carrousel photo
 - **Slide 1** : pochette entière centrée, titre en majuscules et en gras dessous, artistes dans la couleur la plus vive de la pochette.
 - **Emoji** : l'utilisateur l'ajoute lui-même dans TikTok (en haut à gauche de la slide 1), pour avoir le style des emojis iPhone. Ne pas en mettre dans les slides.
 - **Slide 2** : toutes les paroles d'un coup (c'est le format qui marche le mieux sur le compte), alignées à gauche, en blanc. Option `--punch "..."` : la ligne qui contient ce passage passe en gras dans la couleur de la pochette (la phrase culte).
+- **Pochette 3D** (option `--3d`) : la pochette est rendue comme un objet posé en biais (épaisseur, léger vernis, ombre, reflet au sol) au lieu d'un carré à plat. Rendu Three.js via `scripts/cover3d.js` (`three` installé avec `npm install` dans `scripts/`).
 - **Signature** `@repeatmusique` en petit en bas de la slide 2 (`--signature ""` pour l'enlever).
 - **Zone visible TikTok** : tout reste entre x = 110 et 920, y = 250 et 1450. Les téléphones allongés rognent les bords et les boutons j'aime/commentaires couvrent la droite. Plus de pochette à cheval entre les deux slides (elle était coupée).
 - Police : Helvetica (Nimbus Sans dans le conteneur).

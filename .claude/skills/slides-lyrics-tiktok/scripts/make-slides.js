@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 // Génère les 2 slides d'un carrousel TikTok « lyrics » à partir d'un lien Spotify.
+// Options : --3d (pochette en 3D sur la slide 1), --punch "..." (phrase culte en couleur), --signature "..."
 // Usage : node make-slides.js <lien-spotify-track> <refrain.txt | -> <dossier-de-sortie> [--emoji "🍭"] [--artiste "Vacra, La Rvfleuze"]
 //   --emoji   : emoji dans le coin en haut à gauche de la slide 1 (optionnel)
 //   --artiste : nom affiché sous le titre (par défaut : artistes Spotify séparés par des virgules)
@@ -23,10 +24,11 @@ function get(url) {
 }
 
 (async () => {
-  const args = process.argv.slice(2), opts = { emoji: '', artiste: null, punch: '', signature: '@repeatmusique' }, pos = [];
+  const args = process.argv.slice(2), opts = { emoji: '', artiste: null, punch: '', signature: '@repeatmusique', cover3d: false }, pos = [];
   for (let i = 0; i < args.length; i++) {
     if (args[i] === '--emoji') opts.emoji = args[++i] || '';
     else if (args[i] === '--artiste') opts.artiste = args[++i] || '';
+    else if (args[i] === '--3d') opts.cover3d = true;
     else if (args[i] === '--punch') opts.punch = args[++i] || '';
     else if (args[i] === '--signature') opts.signature = args[++i] ?? '';
     else pos.push(args[i]);
@@ -65,6 +67,16 @@ function get(url) {
   await page.fill('#punch', opts.punch);
   await page.fill('#sig', opts.signature);
   await page.setInputFiles('#cover', coverPath);
+  if (opts.cover3d) {   // pochette en 3D : rendue à part, puis donnée au générateur
+    const p3 = path.join(outDir, 'cover3d.png');
+    const r3 = require('child_process').spawnSync('node', [path.join(__dirname, 'cover3d.js'), coverPath, p3], { stdio: 'inherit' });
+    if (r3.status) fail('rendu 3D de la pochette impossible');
+    const info = JSON.parse(fs.readFileSync(p3.replace(/\.png$/, '.json'), 'utf8'));
+    await page.evaluate(async ({ src, bottom }) => { const i = new Image(); await new Promise(r => { i.onload = r; i.src = src; }); window.__cover3dImg = i; window.__cover3dBottom = bottom; },
+      { src: 'data:image/png;base64,' + fs.readFileSync(p3).toString('base64'), bottom: info.bottom });
+    await page.waitForTimeout(600);
+    await page.fill('#title', title + ' '); await page.fill('#title', title);
+  }
   await page.waitForTimeout(1500);
 
   const slug = title.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '')

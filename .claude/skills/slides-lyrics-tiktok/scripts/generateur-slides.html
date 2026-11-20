@@ -283,9 +283,17 @@ Celui qui tourne sur TikTok</textarea>
 
     // ---- Slide 1 : pochette entière centrée, titre et artiste dessous (rien n'est coupé entre les slides)
     const CS = 760, coverX = Math.round((W - CS) / 2), coverY = 290;   // le plus grand possible dans la zone visible
-    if (coverImg && coverImg.complete) {
-      ctx.save(); ctx.shadowColor = "rgba(0,0,0,0.35)"; ctx.shadowBlur = 40; ctx.shadowOffsetY = 12;
-      drawCoverSquare(coverImg, coverX, coverY, CS); ctx.restore();
+    const c3 = window.__cover3dImg;   // pochette 3D (option --3d du script) : PNG transparent avec ombre et reflet
+    let titleTop;
+    if (c3 && c3.complete) {
+      const w3 = 1120, h3 = w3 * c3.naturalHeight / c3.naturalWidth, x3 = (W - w3) / 2 - 25, y3 = 120;
+      ctx.drawImage(c3, x3, y3, w3, h3); titleTop = y3 + h3 * (window.__cover3dBottom || 0.65) + 125;
+    } else {
+      if (coverImg && coverImg.complete) {
+        ctx.save(); ctx.shadowColor = "rgba(0,0,0,0.35)"; ctx.shadowBlur = 40; ctx.shadowOffsetY = 12;
+        drawCoverSquare(coverImg, coverX, coverY, CS); ctx.restore();
+      }
+      titleTop = coverY + CS + 115;
     }
     const tMaxW = SAFE.x1 - SAFE.x0;
     ctx.fillStyle = "#ffffff"; ctx.textAlign = "center"; ctx.textBaseline = "alphabetic";
@@ -297,7 +305,7 @@ Celui qui tourne sur TikTok</textarea>
       if ((tl.length <= 2 && Math.max(...tl.map(l => ctx.measureText(l).width)) <= tMaxW) || fs <= 44) break;
       fs -= 2;
     }
-    let ty = coverY + CS + 115;
+    let ty = Math.min(titleTop, SAFE.y1 - 120);
     tl.forEach(l => { ctx.fillText(l, W / 2, ty); ty += fs * 1.12; });
     if ("letterSpacing" in ctx) ctx.letterSpacing = "0px";
     const artist = $("artist").value.trim();

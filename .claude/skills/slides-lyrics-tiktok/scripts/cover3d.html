@@ -1,0 +1,47 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><style>html,body{margin:0;background:transparent}</style>
+<script type="importmap">{"imports":{"three":"./node_modules/three/build/three.module.js","three/addons/":"./node_modules/three/examples/jsm/"}}</script>
+</head><body>
+<script type="module">
+import * as THREE from 'three';
+import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
+// Pochette en 3D (image fixe, fond transparent) : objet posé en biais, épaisseur, vernis brillant, reflet au sol.
+window.render3d = async (src, opts = {}) => {
+  const SZ = 1400;
+  const img = await new Promise((res, rej) => { const i = new Image(); i.onload = () => res(i); i.onerror = rej; i.src = src; });
+  const sd = Math.min(img.naturalWidth, img.naturalHeight), sq = document.createElement('canvas'); sq.width = sq.height = 1024;
+  sq.getContext('2d').drawImage(img, (img.naturalWidth - sd) / 2, (img.naturalHeight - sd) / 2, sd, sd, 0, 0, 1024, 1024);
+  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, preserveDrawingBuffer: true });
+  renderer.setSize(SZ * 2, SZ * 2);   // rendu 2x puis réduit : bords nets renderer.setPixelRatio(1); renderer.setClearColor(0x000000, 0);
+  renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.05;
+  const scene = new THREE.Scene();
+  const env = new THREE.Scene(); env.background = new THREE.Color(0x111114);
+  const strip = (w, h, x, y, z, k) => { const m = new THREE.Mesh(new THREE.PlaneGeometry(w, h), new THREE.MeshBasicMaterial({ color: new THREE.Color(0xffffff).multiplyScalar(k), side: THREE.DoubleSide })); m.position.set(x, y, z); m.lookAt(0, 0, 0); env.add(m); };
+  strip(1.2, 6, -4, 2, 3, 1.1); strip(6, 0.5, 2, 5, 2, 0.6);
+  scene.environment = new THREE.PMREMGenerator(renderer).fromScene(env, 0.02).texture;
+  const key = new THREE.DirectionalLight(0xffffff, 1.6); key.position.set(-3, 4, 5); scene.add(key);
+  scene.add(new THREE.AmbientLight(0xffffff, 0.35));
+  const tex = new THREE.CanvasTexture(sq); tex.colorSpace = THREE.SRGBColorSpace; tex.anisotropy = 16;
+  const side = new THREE.MeshPhysicalMaterial({ color: 0x0c0c0e, roughness: 0.4, clearcoat: 1 });
+  const front = new THREE.MeshPhysicalMaterial({ color: 0x000000, emissive: 0xffffff, emissiveMap: tex, emissiveIntensity: 0.92, roughness: 0.5, clearcoat: 0.6, clearcoatRoughness: 0.08 });   // couleurs fidèles + léger vernis
+  const box = new THREE.Mesh(new RoundedBoxGeometry(2, 2, 0.08, 4, 0.025), [side, side, side, side, front, side]);
+  box.rotation.set(opts.rx ?? -0.06, opts.ry ?? -0.32, opts.rz ?? 0.015);
+  scene.add(box);
+  const cam = new THREE.PerspectiveCamera(30, 1, 0.1, 50); cam.position.set(0, 0.15, 5.6); cam.lookAt(0, 0, 0);
+  renderer.render(scene, cam);
+  // composite: soft shadow + faded floor reflection + object
+  const out = document.createElement('canvas'); out.width = SZ; out.height = Math.round(SZ * 1.32); const g = out.getContext('2d');
+  const gl = renderer.domElement;
+  // bounding box of the object (alpha) to place shadow/reflection under it
+  const tmp = document.createElement('canvas'); tmp.width = tmp.height = SZ; const tg = tmp.getContext('2d'); tg.imageSmoothingQuality = 'high'; tg.drawImage(gl, 0, 0, SZ, SZ);
+  const d = tg.getImageData(0, 0, SZ, SZ).data; let bottom = 0; for (let y = SZ - 1; y >= 0 && !bottom; y--) for (let x = 0; x < SZ; x += 4) if (d[(y * SZ + x) * 4 + 3] > 20) { bottom = y; break; }
+  g.save(); g.filter = 'blur(28px)'; g.fillStyle = 'rgba(0,0,0,0.55)'; g.beginPath(); g.ellipse(SZ / 2, bottom + 10, SZ * 0.3, 34, 0, 0, Math.PI * 2); g.fill(); g.restore();
+  g.save(); g.translate(0, bottom * 2 + 6); g.scale(1, -1); g.globalAlpha = 0.14; g.drawImage(tmp, 0, 0); g.restore();
+  g.globalCompositeOperation = 'destination-out';
+  const fade = g.createLinearGradient(0, bottom + 6, 0, bottom + 300); fade.addColorStop(0, 'rgba(0,0,0,0.2)'); fade.addColorStop(1, 'rgba(0,0,0,1)');
+  g.fillStyle = fade; g.fillRect(0, bottom + 6, SZ, out.height - bottom);
+  g.globalCompositeOperation = 'source-over'; g.drawImage(tmp, 0, 0);
+  return { png: out.toDataURL('image/png'), bottom: bottom / out.height };   // bottom = bas de l'objet, en fraction de la hauteur
+};
+window.ready3d = true;
+</script></body></html>
