@@ -28,7 +28,7 @@ Prévus le 20/11 : Jet Lag (12 h), Fille à Papa (19 h), Cuenta (22 h). Vérifie
 |---|---|---|---|
 | Sam 21/11 | 4 – Mauvais djo | Bir Hakeim – Cherry Pie | Toko Toko – Dadju, Ronisia |
 | Dim 22/11 | Mood – Ninho | Sicario – Timal | Jalouse – Werenoi, SDM, Vacra (refrain explicite : proposé de changer le passage) |
-| Lun 23/11 | Bobo au cœur – Dadju | à trouver | à trouver |
+| Lun 23/11 | Bobo au cœur – Dadju | Lululemon – Leto | à trouver |
 
 Les fichiers des slides ne survivent pas à la session. Pour les refaire, il faut le lien Spotify et le refrain.
 
@@ -44,6 +44,7 @@ Les fichiers des slides ne survivent pas à la session. Pour les refaire, il fau
 | Sicario | 7CQW2QMr6WGaksSqn5Y4Lf | tous les chemins qui mènent au sac Chanel |
 | Jalouse | 5M6bU1A2VHwWoKmHiYjrdU | comme si c'est tout l'temps les vacances |
 | Bobo au cœur | 2XlLHcTNLBkxqCdKasBrRM | ça t'fait mal de voir que je t'oublie |
+| Lululemon | 4NUbhcdKi2nfq6RUUgKyWV | Mes cauchemars ont vaincu mes rêves |
 
 Lien complet : `https://open.spotify.com/track/<ID>`.
 
