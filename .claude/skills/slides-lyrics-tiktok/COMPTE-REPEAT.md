@@ -21,14 +21,14 @@
 
 ## Déjà publiés
 Mélo Décalé, Bodycount, 12, Pineapple, Sexy Nana, Habiba.
-Prévus le 20/11 : Jet Lag (12 h), Fille à Papa (19 h), Cuenta (22 h). Vérifier avec l'utilisateur s'ils ont été postés.
+Jet Lag, Fille à Papa, Cuenta (20/11). Rien posté le samedi 21/11 : tout le planning a été décalé d'un jour.
 
 ## Planning en attente (slides 3D déjà faites le 20/11)
 | Jour | 12 h | 19 h | 22 h |
 |---|---|---|---|
-| Sam 21/11 | 4 – Mauvais djo | Bir Hakeim – Cherry Pie | Toko Toko – Dadju, Ronisia |
-| Dim 22/11 | Mood – Ninho | Sicario – Timal | Jalouse – Werenoi, SDM, Vacra (refrain explicite : proposé de changer le passage) |
-| Lun 23/11 | Bobo au cœur – Dadju | Lululemon – Leto | à trouver |
+| Dim 22/11 | 4 – Mauvais djo | Bir Hakeim – Cherry Pie | Toko Toko – Dadju, Ronisia |
+| Lun 23/11 | Mood – Ninho | Sicario – Timal | Jalouse – Werenoi, SDM, Vacra (refrain explicite : proposé de changer le passage) |
+| Mar 24/11 | Bobo au cœur – Dadju | Lululemon – Leto | à trouver |
 
 Les fichiers des slides ne survivent pas à la session. Pour les refaire, il faut le lien Spotify et le refrain.
 
