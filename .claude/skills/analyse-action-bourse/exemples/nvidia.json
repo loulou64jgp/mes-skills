@@ -1,0 +1,33 @@
+{
+  "societe": "NVIDIA",
+  "ticker": "NVDA",
+  "secteur": "semi-conducteurs",
+  "devise": "$",
+  "unite": "Md",
+  "date_cours": "20/11/2026",
+
+  "cours": 125.53,
+  "nb_actions": 24.1,
+
+  "chiffre_affaires": 361.81,
+  "benefice_net": 226.26,
+  "ebitda": 243.28,
+  "croissance_ca": 103,
+
+  "capitaux_propres": 266.67,
+  "total_actif": 372.2,
+  "dette_totale": 32.4,
+  "tresorerie": 53.5,
+
+  "risques": [
+    "Enquête de la SEC sur de possibles problèmes comptables (Reuters, 20/11/2026) : si les comptes sont corrigés, tous les ratios ci-dessus changent.",
+    "Départ de Jensen Huang pour manquement au code de conduite ; Colette Kress assure l'intérim, pas de successeur nommé.",
+    "Assignation du procureur général de Californie (19/11/2026).",
+    "Action en baisse 7 semaines d'affilée, dont -14 % le 20/11/2026."
+  ],
+  "sources": [
+    "Communiqué NVIDIA T3 FY2027 : https://www.sec.gov/Archives/edgar/data/0001045810/000104581026000088/q3fy27pr.htm",
+    "Cours et données sur 12 mois : https://stockanalysis.com/stocks/nvda/statistics/",
+    "Baisse du 20/11 : https://www.cnbc.com/2026/11/20/nvidias-7-week-losing-streak-is-longest-since-2008-financial-crisis.html"
+  ]
+}
